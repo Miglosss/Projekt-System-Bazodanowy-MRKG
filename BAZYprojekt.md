@@ -16,7 +16,7 @@
 ---
 
 
-**Temat:** (zwięzła nazwa projektowanego systemu)
+**Temat:** (System do zarządzania rezerwacjami miejsc w hotelu)
 
 **Autorzy:** (Mikołaj Rozwadowski, Kacper Gola)
 
