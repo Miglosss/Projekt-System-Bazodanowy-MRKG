@@ -18,7 +18,7 @@
 
 **Temat:** (zwięzła nazwa projektowanego systemu)
 
-**Autorzy:** (Imiona i nazwiska autorów)
+**Autorzy:** (Mikołaj Rozwadowski, Kacper Gola)
 
 --- 
 
