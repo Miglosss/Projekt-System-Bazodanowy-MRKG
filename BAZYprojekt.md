@@ -31,33 +31,54 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 
 # 2.	Wymagania i funkcje systemu
 
-np. lista wymagań, np. historyjki użytkownika, np. przypadki użycia itp.)
+(np. lista wymagań, np. historyjki użytkownika, np. przypadki użycia itp.)
 
-(System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takich jak numer pokoju, typ pokoju oraz maksymalna liczba osób.
+- System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takich jak numer pokoju, typ pokoju oraz maksymalna liczba osób.
+- System powinien umożliwiać tworzenie nowych rezerwacji dla wybranego pokoju.
+- System powinien umożliwiać określenie daty rozpoczęcia i zakończenia pobytu.
+- System powinien umożliwiać zapisanie liczby osób przypisanych do rezerwacji.
+- System powinien sprawdzać, czy liczba osób nie przekracza maksymalnej pojemności pokoju.
+- System powinien umożliwiać sprawdzanie dostępności konkretnego pokoju w wybranym terminie.
+- System powinien umożliwiać sprawdzenie, które pokoje są wolne w podanym zakresie dat.
+- System powinien uniemożliwiać dodanie dwóch rezerwacji tego samego pokoju w tym samym czasie.
+- System powinien umożliwiać anulowanie rezerwacji.
+- System powinien umożliwiać przeglądanie wszystkich rezerwacji.
+- System powinien umożliwiać wyszukiwanie rezerwacji według numeru pokoju lub zakresu dat.
+- System powinien zapewniać spójność danych oraz poprawne powiązania między tabelami.
+- System powinien umożliwiać dalszą rozbudowę systemu w przyszłości.
 
-System powinien umożliwiać tworzenie nowych rezerwacji dla wybranego pokoju.
+Funkcje systemu
+Do głównych funkcji systemu będzie należało:
 
-System powinien umożliwiać określenie daty rozpoczęcia i zakończenia pobytu.
+- dodawanie danych pokojów,
+- przeglądanie listy pokojów,
+- tworzenie rezerwacji miejsc noclegowych,
+- przypisywanie pokoju do rezerwacji,
+- określanie liczby osób,
+- określanie terminu pobytu,
+- sprawdzanie dostępności konkretnego pokoju,
+- sprawdzanie, które pokoje są wolne w wybranych datach,
+- wyświetlanie listy wszystkich rezerwacji,
+- wyszukiwanie rezerwacji według numeru pokoju lub dat,
+- anulowanie rezerwacji,
+- wyświetlanie listy zajętych pokojów w danym terminie.
 
-System powinien umożliwiać zapisanie liczby osób przypisanych do rezerwacji.
+Przykładowe przypadki użycia
 
-System powinien sprawdzać, czy liczba osób nie przekracza maksymalnej pojemności pokoju.
+Przypadek użycia 1 – dodanie rezerwacji
+Użytkownik wybiera pokój, podaje liczbę osób oraz daty pobytu. System sprawdza, czy pokój jest dostępny i czy liczba osób mieści się w jego pojemności. Jeśli warunki są spełnione, zapisuje rezerwację.
 
-System powinien umożliwiać sprawdzanie dostępności konkretnego pokoju w wybranym terminie.
+Przypadek użycia 2 – sprawdzenie dostępności konkretnego pokoju
+Użytkownik podaje numer pokoju oraz zakres dat, a system sprawdza, czy pokój jest wolny w tym terminie.
 
-System powinien umożliwiać sprawdzenie, które pokoje są wolne w podanym zakresie dat.
+Przypadek użycia 3 – sprawdzenie wolnych pokojów
+Użytkownik podaje datę przyjazdu i wyjazdu, a system wyświetla listę wszystkich pokojów, które nie są zarezerwowane w podanym okresie.
 
-System powinien uniemożliwiać dodanie dwóch rezerwacji tego samego pokoju w tym samym czasie.
+Przypadek użycia 4 – anulowanie rezerwacji
+Użytkownik wybiera istniejącą rezerwację i zmienia jej status na anulowaną, dzięki czemu pokój staje się dostępny dla kolejnych rezerwacji.
 
-System powinien umożliwiać anulowanie rezerwacji.
-
-System powinien umożliwiać przeglądanie wszystkich rezerwacji.
-
-System powinien umożliwiać wyszukiwanie rezerwacji według numeru pokoju lub zakresu dat.
-
-System powinien zapewniać spójność danych oraz poprawne powiązania między tabelami.
-
-System powinien umożliwiać dalszą rozbudowę systemu w przyszłości.
+Przypadek użycia 5 – wyszukiwanie rezerwacji
+Użytkownik wyszukuje rezerwacje według numeru pokoju lub zakresu dat.
 
 # 3.	Projekt bazy danych
 
