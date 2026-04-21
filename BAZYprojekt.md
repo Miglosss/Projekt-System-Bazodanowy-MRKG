@@ -67,7 +67,7 @@ Do głównych funkcji systemu będzie należało:
 - wyświetlanie listy zajętych pokojów w danym terminie.
 
 
-##Przykładowe przypadki użycia
+## Przykładowe przypadki użycia
 
 ### Przypadek użycia 1 – dodanie rezerwacji
 Użytkownik wybiera pokój, podaje liczbę osób oraz daty pobytu. System sprawdza, czy pokój jest dostępny i czy liczba osób mieści się w jego pojemności. Jeśli warunki są spełnione, zapisuje rezerwację.
