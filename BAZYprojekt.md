@@ -66,6 +66,7 @@ Do głównych funkcji systemu będzie należało:
 - anulowanie rezerwacji,
 - wyświetlanie listy zajętych pokojów w danym terminie.
 
+
 Przykładowe przypadki użycia
 
 Przypadek użycia 1 – dodanie rezerwacji -
