@@ -48,6 +48,7 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 - System powinien umożliwiać dalszą rozbudowę systemu w przyszłości.
 
 Funkcje systemu
+
 Do głównych funkcji systemu będzie należało:
 
 - dodawanie danych pokojów,
