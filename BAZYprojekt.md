@@ -84,6 +84,7 @@ Użytkownik wybiera istniejącą rezerwację i zmienia jej status na anulowaną,
 ### Przypadek użycia 5 – wyszukiwanie rezerwacji
 Użytkownik wyszukuje rezerwacje według numeru pokoju lub zakresu dat.
 
+
 # 3.	Projekt bazy danych
 
 ## Schemat bazy danych
