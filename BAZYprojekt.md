@@ -33,7 +33,7 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 
 (np. lista wymagań, np. historyjki użytkownika, np. przypadki użycia itp.)
 
-Wymagania systemu:
+**Wymagania systemu:**
 
 - System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takich jak numer pokoju, typ pokoju oraz maksymalna liczba osób.
 - System powinien umożliwiać tworzenie nowych rezerwacji dla wybranego pokoju.
@@ -49,7 +49,7 @@ Wymagania systemu:
 - System powinien zapewniać spójność danych oraz poprawne powiązania między tabelami.
 - System powinien umożliwiać dalszą rozbudowę systemu w przyszłości.
 
-Funkcje systemu
+**Funkcje systemu**
 
 Do głównych funkcji systemu będzie należało:
 
@@ -67,7 +67,7 @@ Do głównych funkcji systemu będzie należało:
 - wyświetlanie listy zajętych pokojów w danym terminie.
 
 
-Przykładowe przypadki użycia
+**Przykładowe przypadki użycia**
 
 Przypadek użycia 1 – dodanie rezerwacji -
 Użytkownik wybiera pokój, podaje liczbę osób oraz daty pobytu. System sprawdza, czy pokój jest dostępny i czy liczba osób mieści się w jego pojemności. Jeśli warunki są spełnione, zapisuje rezerwację.
