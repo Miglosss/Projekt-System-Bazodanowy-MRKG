@@ -143,7 +143,7 @@ Nazwa tabeli: (nazwa tabeli)
 | Nazwa atrybutu | Typ         | Opis/Uwagi                                       |
 | -------------- | ----------- | ------------------------------------------------ |
 | StatusID       | int (PK)    | Unikalny identyfikator statusu                   |
-| Name           | varchar(20) | Nazwa statusu (np. Active, Cancelled, Completed) |
+| Name           | varchar(20) | Nazwa statusu (Active, Cancelled, Completed) |
 
 ### Payments
 | Nazwa atrybutu | Typ           | Opis/Uwagi                                |
