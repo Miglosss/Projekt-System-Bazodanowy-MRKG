@@ -131,7 +131,7 @@ Nazwa tabeli: (nazwa tabeli)
 | Nazwa atrybutu | Typ         | Opis/Uwagi |
 |----------------|-------------|------------|
 | StatusID       | int (PK)    | Unikalny identyfikator statusu |
-| Name           | varchar(20) | Nazwa statusu (np. Active, Cancelled, Completed) |
+| Name           | varchar(20) | Nazwa statusu (Active, Cancelled, Completed) |
 
 ### Bookings
 | Nazwa atrybutu | Typ         | Opis/Uwagi |
@@ -157,7 +157,7 @@ Nazwa tabeli: (nazwa tabeli)
 | BookingID      | int (FK)       | Odwołanie do tabeli Bookings |
 | Amount         | decimal(10,2)  | Kwota płatności |
 | PaymentDate    | datetime       | Data dokonania płatności |
-| Method         | varchar(50)    | Metoda płatności (np. karta, gotówka) |
+| Method         | varchar(50)    | Metoda płatności (karta, gotówka) |
 
 
 # 4.	Implementacja
