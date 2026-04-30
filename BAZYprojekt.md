@@ -46,7 +46,6 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 - System powinien umożliwiać anulowanie rezerwacji.
 - System powinien umożliwiać przeglądanie wszystkich rezerwacji.
 - System powinien umożliwiać wyszukiwanie rezerwacji według numeru pokoju lub zakresu dat.
-- System powinien umożliwiać dalszą rozbudowę systemu w przyszłości.
 
 ## Funkcje systemu
 
