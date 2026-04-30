@@ -91,7 +91,7 @@ Użytkownik wyszukuje rezerwacje według numeru pokoju lub zakresu dat.
 
 (diagram (rysunek) przedstawiający schemat bazy danych) 
 
-<img width="921" height="702" alt="image" src="https://github.com/user-attachments/assets/546af87f-c77b-483f-a9ef-74b3d57c028f" />
+
 
 ## Opis poszczególnych tabel
 
@@ -102,58 +102,62 @@ Nazwa tabeli: (nazwa tabeli)
 - Opis: (opis tabeli, komentarz)
 
 ### RoomTypes
-| Nazwa atrybutu | Typ           | Opis/Uwagi                                    |
-| -------------- | ------------- | --------------------------------------------- |
-| RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju            |
-| Name           | varchar(50)   | Nazwa typu pokoju (np. Single, Double, Suite) |
-| MaxGuests      | int           | Maksymalna liczba gości (wartość > 0)         |
-| PricePerNight  | decimal(10,2) | Cena za jedną noc (wartość ≥ 0)               |
+| Nazwa atrybutu | Typ            | Opis/Uwagi |
+|----------------|----------------|------------|
+| RoomTypeID     | int (PK)       | Unikalny identyfikator typu pokoju |
+| Name           | varchar(50)    | Nazwa typu pokoju (np. Single, Double, Suite) |
+| MaxGuests      | int            | Maksymalna liczba gości |
+| PricePerNight  | decimal(10,2)  | Cena za jedną noc |
 
 ### HotelRooms
-| Nazwa atrybutu | Typ      | Opis/Uwagi                                     |
-| -------------- | -------- | ---------------------------------------------- |
-| RoomID         | int (PK) | Unikalny identyfikator pokoju                  |
-| RoomNumber     | int      | Numer pokoju (unikalny)                        |
-| RoomTypeID     | int (FK) | Odwołanie do tabeli RoomTypes                  |
-| Floor          | int      | Piętro, na którym znajduje się pokój           |
-| IsSmoking      | bit      | Czy pokój jest dla palących (1 = tak, 0 = nie) |
+| Nazwa atrybutu | Typ         | Opis/Uwagi |
+|----------------|-------------|------------|
+| RoomID         | int (PK)    | Unikalny identyfikator pokoju |
+| RoomNumber     | int         | Numer pokoju (unikalny) |
+| RoomTypeID     | int (FK)    | Odwołanie do tabeli RoomTypes |
+| Floor          | int         | Piętro, na którym znajduje się pokój |
+| IsSmoking      | bit         | Czy pokój jest dla palących (1 = tak, 0 = nie) |
 
-### HotelGuests
-| Nazwa atrybutu | Typ          | Opis/Uwagi                    |
-| -------------- | ------------ | ----------------------------- |
-| GuestID        | int (PK)     | Unikalny identyfikator gościa |
-| FirstName      | varchar(50)  | Imię                          |
-| LastName       | varchar(50)  | Nazwisko                      |
-| Phone          | varchar(20)  | Numer telefonu (opcjonalny)   |
-| Email          | varchar(100) | Adres e-mail (opcjonalny)     |
-
-### Bookings
-| Nazwa atrybutu | Typ      | Opis/Uwagi                                                 |
-| -------------- | -------- | ---------------------------------------------------------- |
-| ReservationID  | int (PK) | Unikalny identyfikator rezerwacji                          |
-| RoomID         | int (FK) | Odwołanie do tabeli Rooms                                  |
-| GuestID        | int (FK) | Odwołanie do tabeli HotelGuests                            |
-| DateFrom       | date     | Data rozpoczęcia pobytu                                    |
-| DateTo         | date     | Data zakończenia pobytu (musi być późniejsza niż DateFrom) |
-| GuestsCount    | int      | Liczba gości (wartość > 0)                                 |
-| StatusID       | int (FK) | Odwołanie do tabeli ReservationStatus                      |
-
+### Guests
+| Nazwa atrybutu | Typ            | Opis/Uwagi |
+|----------------|----------------|------------|
+| GuestID        | int (PK)       | Unikalny identyfikator gościa |
+| FirstName      | varchar(50)    | Imię |
+| LastName       | varchar(50)    | Nazwisko |
+| Phone          | varchar(20)    | Numer telefonu (opcjonalny) |
+| Email          | varchar(100)   | Adres e-mail (unikalny, opcjonalny) |
 
 ### BookingStatus
-| Nazwa atrybutu | Typ         | Opis/Uwagi                                       |
-| -------------- | ----------- | ------------------------------------------------ |
-| StatusID       | int (PK)    | Unikalny identyfikator statusu                   |
-| Name           | varchar(20) | Nazwa statusu (Active, Cancelled, Completed) |
+| Nazwa atrybutu | Typ         | Opis/Uwagi |
+|----------------|-------------|------------|
+| StatusID       | int (PK)    | Unikalny identyfikator statusu |
+| Name           | varchar(20) | Nazwa statusu (np. Active, Cancelled, Completed) |
+
+### Bookings
+| Nazwa atrybutu | Typ         | Opis/Uwagi |
+|----------------|-------------|------------|
+| BookingID      | int (PK)    | Unikalny identyfikator rezerwacji |
+| GuestID        | int (FK)    | Odwołanie do tabeli Guests |
+| DateFrom       | date        | Data rozpoczęcia pobytu |
+| DateTo         | date        | Data zakończenia pobytu |
+| StatusID       | int (FK)    | Odwołanie do tabeli BookingStatus |
+
+### BookingRooms
+| Nazwa atrybutu | Typ         | Opis/Uwagi |
+|----------------|-------------|------------|
+| BookingRoomID  | int (PK)    | Unikalny identyfikator przypisania pokoju |
+| BookingID      | int (FK)    | Odwołanie do tabeli Bookings |
+| RoomID         | int (FK)    | Odwołanie do tabeli HotelRooms |
+| GuestsCount    | int         | Liczba gości w danym pokoju |
 
 ### Transactions
-| Nazwa atrybutu | Typ           | Opis/Uwagi                                |
-| -------------- | ------------- | ----------------------------------------- |
-| PaymentID      | int (PK)      | Unikalny identyfikator płatności          |
-| ReservationID  | int (FK)      | Odwołanie do tabeli Reservations          |
-| Amount         | decimal(10,2) | Kwota płatności (wartość ≥ 0)             |
-| PaymentDate    | datetime      | Data dokonania płatności (może być pusta) |
-| Method         | varchar(50)   | Metoda płatności (np. karta, gotówka)     |
-
+| Nazwa atrybutu | Typ            | Opis/Uwagi |
+|----------------|----------------|------------|
+| TransactionID  | int (PK)       | Unikalny identyfikator transakcji |
+| BookingID      | int (FK)       | Odwołanie do tabeli Bookings |
+| Amount         | decimal(10,2)  | Kwota płatności |
+| PaymentDate    | datetime       | Data dokonania płatności |
+| Method         | varchar(50)    | Metoda płatności (np. karta, gotówka) |
 
 
 # 4.	Implementacja
