@@ -109,7 +109,7 @@ Nazwa tabeli: (nazwa tabeli)
 | MaxGuests      | int           | Maksymalna liczba gości (wartość > 0)         |
 | PricePerNight  | decimal(10,2) | Cena za jedną noc (wartość ≥ 0)               |
 
-### Rooms
+### HotelRooms
 | Nazwa atrybutu | Typ      | Opis/Uwagi                                     |
 | -------------- | -------- | ---------------------------------------------- |
 | RoomID         | int (PK) | Unikalny identyfikator pokoju                  |
@@ -127,7 +127,7 @@ Nazwa tabeli: (nazwa tabeli)
 | Phone          | varchar(20)  | Numer telefonu (opcjonalny)   |
 | Email          | varchar(100) | Adres e-mail (opcjonalny)     |
 
-### Reservations
+### Bookings
 | Nazwa atrybutu | Typ      | Opis/Uwagi                                                 |
 | -------------- | -------- | ---------------------------------------------------------- |
 | ReservationID  | int (PK) | Unikalny identyfikator rezerwacji                          |
@@ -139,13 +139,13 @@ Nazwa tabeli: (nazwa tabeli)
 | StatusID       | int (FK) | Odwołanie do tabeli ReservationStatus                      |
 
 
-### ReservationStatus
+### BookingStatus
 | Nazwa atrybutu | Typ         | Opis/Uwagi                                       |
 | -------------- | ----------- | ------------------------------------------------ |
 | StatusID       | int (PK)    | Unikalny identyfikator statusu                   |
 | Name           | varchar(20) | Nazwa statusu (Active, Cancelled, Completed) |
 
-### Payments
+### Transactions
 | Nazwa atrybutu | Typ           | Opis/Uwagi                                |
 | -------------- | ------------- | ----------------------------------------- |
 | PaymentID      | int (PK)      | Unikalny identyfikator płatności          |
