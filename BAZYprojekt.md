@@ -105,7 +105,7 @@ Nazwa tabeli: (nazwa tabeli)
 | Nazwa atrybutu | Typ            | Opis/Uwagi |
 |----------------|----------------|------------|
 | RoomTypeID     | int (PK)       | Unikalny identyfikator typu pokoju |
-| Name           | varchar(50)    | Nazwa typu pokoju (np. Single, Double, Suite) |
+| Name           | varchar(50)    | Nazwa typu pokoju (Single, Double, Suite, Twin, Triple) |
 | MaxGuests      | int            | Maksymalna liczba gości |
 | PricePerNight  | decimal(10,2)  | Cena za jedną noc |
 
