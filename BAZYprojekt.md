@@ -101,62 +101,73 @@ Nazwa tabeli: (nazwa tabeli)
 - Opis: (opis tabeli, komentarz)
 
 ### RoomTypes
-| Nazwa atrybutu | Typ            | Opis/Uwagi |
-|----------------|----------------|------------|
-| RoomTypeID     | int (PK)       | Unikalny identyfikator typu pokoju |
-| Name           | varchar(50)    | Nazwa typu pokoju (Single, Double, Suite, Twin, Triple) |
-| MaxGuests      | int            | Maksymalna liczba gości |
-| PricePerNight  | decimal(10,2)  | Cena za jedną noc |
+Opis: Tabela przechowuje typy pokoi dostępnych w hotelu.
+| Nazwa atrybutu | Typ           | Opis/Uwagi                                              |
+| -------------- | ------------- | ------------------------------------------------------- |
+| RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju                      |
+| Name           | varchar(50)   | Nazwa typu pokoju (Single, Double, Suite, Twin, Triple) |
+| MaxGuests      | int           | Maksymalna liczba gości                                 |
+| PricePerNight  | decimal(10,2) | Cena za jedną noc                                       |
 
 ### HotelRooms
+Opis: Tabela przechowuje informacje o konkretnych pokojach hotelowych.
 | Nazwa atrybutu | Typ         | Opis/Uwagi |
-|----------------|-------------|------------|
-| RoomID         | int (PK)    | Unikalny identyfikator pokoju |
-| RoomNumber     | int         | Numer pokoju (unikalny) |
-| RoomTypeID     | int (FK)    | Odwołanie do tabeli RoomTypes |
-| Floor          | int         | Piętro, na którym znajduje się pokój |
-| IsSmoking      | bit         | Czy pokój jest dla palących (1 = tak, 0 = nie) |
+| Nazwa atrybutu | Typ      | Opis/Uwagi                                     |
+| -------------- | -------- | ---------------------------------------------- |
+| RoomID         | int (PK) | Unikalny identyfikator pokoju                  |
+| RoomNumber     | int      | Numer pokoju (unikalny)                        |
+| RoomTypeID     | int (FK) | Odwołanie do tabeli RoomTypes                  |
+| Floor          | int      | Piętro, na którym znajduje się pokój           |
+| IsSmoking      | bit      | Czy pokój jest dla palących (1 = tak, 0 = nie) |
 
 ### Guests
-| Nazwa atrybutu | Typ            | Opis/Uwagi |
-|----------------|----------------|------------|
-| GuestID        | int (PK)       | Unikalny identyfikator gościa |
-| FirstName      | varchar(50)    | Imię |
-| LastName       | varchar(50)    | Nazwisko |
-| Phone          | varchar(20)    | Numer telefonu (opcjonalny) |
-| Email          | varchar(100)   | Adres e-mail (unikalny, opcjonalny) |
+Opis: Tabela przechowuje dane gości hotelowych dokonujących rezerwacji.
+| Nazwa atrybutu | Typ          | Opis/Uwagi                          |
+| -------------- | ------------ | ----------------------------------- |
+| GuestID        | int (PK)     | Unikalny identyfikator gościa       |
+| FirstName      | varchar(50)  | Imię                                |
+| LastName       | varchar(50)  | Nazwisko                            |
+| Phone          | varchar(20)  | Numer telefonu (opcjonalny)         |
+| Email          | varchar(100) | Adres e-mail (unikalny, opcjonalny) |
 
 ### BookingStatus
-| Nazwa atrybutu | Typ         | Opis/Uwagi |
-|----------------|-------------|------------|
-| StatusID       | int (PK)    | Unikalny identyfikator statusu |
-| Name           | varchar(20) | Nazwa statusu (Active, Cancelled, Completed) |
+Opis: Tabela przechowuje możliwe statusy rezerwacji.
+| Nazwa atrybutu | Typ         | Opis/Uwagi                                             |
+| -------------- | ----------- | ------------------------------------------------------ |
+| StatusID       | int (PK)    | Unikalny identyfikator statusu                         |
+| Name           | varchar(20) | Nazwa statusu (Planned, Started, Completed, Cancelled) |
 
 ### Bookings
-| Nazwa atrybutu | Typ         | Opis/Uwagi |
-|----------------|-------------|------------|
-| BookingID      | int (PK)    | Unikalny identyfikator rezerwacji |
-| GuestID        | int (FK)    | Odwołanie do tabeli Guests |
-| DateFrom       | date        | Data rozpoczęcia pobytu |
-| DateTo         | date        | Data zakończenia pobytu |
-| StatusID       | int (FK)    | Odwołanie do tabeli BookingStatus |
+Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
+| Nazwa atrybutu | Typ      | Opis/Uwagi                                                  |
+| -------------- | -------- | ----------------------------------------------------------- |
+| BookingID      | int (PK) | Unikalny identyfikator rezerwacji                           |
+| GuestID        | int (FK) | Odwołanie do tabeli Guests                                  |
+| DateFrom       | date     | Data rozpoczęcia pobytu                                     |
+| DateTo         | date     | Data zakończenia pobytu                                     |
+| ActualCheckOut | date     | Rzeczywista data zakończenia pobytu (może być wcześniejsza) |
+| StatusID       | int (FK) | Odwołanie do tabeli BookingStatus                           |
 
 ### BookingRooms
-| Nazwa atrybutu | Typ         | Opis/Uwagi |
-|----------------|-------------|------------|
-| BookingRoomID  | int (PK)    | Unikalny identyfikator przypisania pokoju |
-| BookingID      | int (FK)    | Odwołanie do tabeli Bookings |
-| RoomID         | int (FK)    | Odwołanie do tabeli HotelRooms |
-| GuestsCount    | int         | Liczba gości w danym pokoju |
+Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji oraz ich liczbie.
+| Nazwa atrybutu | Typ      | Opis/Uwagi                                    |
+| -------------- | -------- | --------------------------------------------- |
+| BookingRoomID  | int (PK) | Unikalny identyfikator przypisania            |
+| BookingID      | int (FK) | Odwołanie do tabeli Bookings                  |
+| RoomTypeID     | int (FK) | Odwołanie do tabeli RoomTypes                 |
+| RoomsCount     | int      | Liczba zarezerwowanych pokoi danego typu      |
+| GuestsCount    | int      | Liczba gości przypisana do danego typu pokoju |
+
 
 ### Transactions
-| Nazwa atrybutu | Typ            | Opis/Uwagi |
-|----------------|----------------|------------|
-| TransactionID  | int (PK)       | Unikalny identyfikator transakcji |
-| BookingID      | int (FK)       | Odwołanie do tabeli Bookings |
-| Amount         | decimal(10,2)  | Kwota płatności |
-| PaymentDate    | datetime       | Data dokonania płatności |
-| Method         | varchar(50)    | Metoda płatności (karta, gotówka) |
+Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
+| Nazwa atrybutu | Typ           | Opis/Uwagi                            |
+| -------------- | ------------- | ------------------------------------- |
+| TransactionID  | int (PK)      | Unikalny identyfikator transakcji     |
+| BookingID      | int (FK)      | Odwołanie do tabeli Bookings          |
+| Amount         | decimal(10,2) | Kwota płatności                       |
+| PaymentDate    | datetime      | Data dokonania płatności              |
+| Method         | varchar(50)   | Metoda płatności (np. karta, gotówka) |
 
 
 # 4.	Implementacja
