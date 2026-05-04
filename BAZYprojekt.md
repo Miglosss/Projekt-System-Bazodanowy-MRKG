@@ -67,19 +67,21 @@ Do głównych funkcji systemu będzie należało:
 ## Przykładowe przypadki użycia
 
 ### Przypadek użycia 1 – dodanie rezerwacji
-Użytkownik wybiera pokój, podaje liczbę osób oraz daty pobytu. System sprawdza, czy pokój jest dostępny i czy liczba osób mieści się w jego pojemności. Jeśli warunki są spełnione, zapisuje rezerwację.
+Użytkownik wybiera typ pokoju, podaje liczbę pokoi, liczbę osób oraz daty pobytu.
+System sprawdza dostępność wybranego typu pokoju w danym terminie oraz czy liczba osób mieści się w maksymalnej pojemności.
+Jeśli warunki są spełnione, zapisuje rezerwację.
 
-### Przypadek użycia 2 – sprawdzenie dostępności konkretnego pokoju
-Użytkownik podaje numer pokoju oraz zakres dat, a system sprawdza, czy pokój jest wolny w tym terminie.
+### Przypadek użycia 2 – sprawdzenie dostępności typu pokoju
+Użytkownik wybiera typ pokoju oraz zakres dat, a system sprawdza liczbę dostępnych pokoi tego typu w podanym terminie.
 
-### Przypadek użycia 3 – sprawdzenie wolnych pokojów
-Użytkownik podaje datę przyjazdu i wyjazdu, a system wyświetla listę wszystkich pokojów, które nie są zarezerwowane w podanym okresie.
+### Przypadek użycia 3 – sprawdzenie dostępnych pokoi
+Użytkownik podaje datę przyjazdu i wyjazdu, a system wyświetla liczbę dostępnych pokoi dla każdego typu w podanym okresie.
 
 ### Przypadek użycia 4 – anulowanie rezerwacji
-Użytkownik wybiera istniejącą rezerwację i zmienia jej status na anulowaną, dzięki czemu pokój staje się dostępny dla kolejnych rezerwacji.
+Użytkownik wybiera istniejącą rezerwację i zmienia jej status na anulowaną, dzięki czemu zarezerwowane pokoje wracają do puli dostępnych.
 
 ### Przypadek użycia 5 – wyszukiwanie rezerwacji
-Użytkownik wyszukuje rezerwacje według numeru pokoju lub zakresu dat.
+Użytkownik wyszukuje rezerwacje według typu pokoju lub zakresu dat.
 
 
 # 3.	Projekt bazy danych
