@@ -53,16 +53,15 @@ Do głównych funkcji systemu będzie należało:
 
 - dodawanie danych pokojów,
 - przeglądanie listy pokojów,
-- tworzenie rezerwacji miejsc noclegowych,
-- przypisywanie pokoju do rezerwacji,
-- określanie liczby osób,
+- tworzenie rezerwacji według typu pokoju,
+- określanie liczby pokoi oraz liczby osób,
 - określanie terminu pobytu,
-- sprawdzanie dostępności konkretnego pokoju,
-- sprawdzanie, które pokoje są wolne w wybranych datach,
+- sprawdzanie dostępności typu pokoju,
+- sprawdzanie liczby dostępnych pokoi danego typu w wybranych datach,
 - wyświetlanie listy wszystkich rezerwacji,
-- wyszukiwanie rezerwacji według numeru pokoju lub dat,
+- wyszukiwanie rezerwacji według typu pokoju lub dat,
 - anulowanie rezerwacji,
-- wyświetlanie listy zajętych pokojów w danym terminie.
+- wyświetlanie listy zajętych pokoi w danym terminie.
 
 
 ## Przykładowe przypadki użycia
