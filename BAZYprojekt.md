@@ -36,16 +36,16 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 ## Wymagania systemu
 
 - System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takich jak numer pokoju, typ pokoju oraz maksymalna liczba osób.
-- System powinien umożliwiać tworzenie nowych rezerwacji dla wybranego pokoju.
+- System powinien umożliwiać tworzenie nowych rezerwacji dla wybranego typu pokoju.
 - System powinien umożliwiać określenie daty rozpoczęcia i zakończenia pobytu.
 - System powinien umożliwiać zapisanie liczby osób przypisanych do rezerwacji.
 - System powinien sprawdzać, czy liczba osób nie przekracza maksymalnej pojemności pokoju.
-- System powinien umożliwiać sprawdzanie dostępności konkretnego pokoju w wybranym terminie.
-- System powinien umożliwiać sprawdzenie, które pokoje są wolne w podanym zakresie dat.
-- System powinien uniemożliwiać dodanie dwóch rezerwacji tego samego pokoju w tym samym czasie.
+- System powinien umożliwiać sprawdzanie dostępności wybranego typu pokoju w wybranym terminie.
+- System powinien umożliwiać sprawdzenie liczby dostępnych pokoi danego typu w podanym zakresie dat.
+- System powinien uniemożliwiać przekroczenie liczby dostępnych pokoi danego typu w tym samym czasie.
 - System powinien umożliwiać anulowanie rezerwacji.
 - System powinien umożliwiać przeglądanie wszystkich rezerwacji.
-- System powinien umożliwiać wyszukiwanie rezerwacji według numeru pokoju lub zakresu dat.
+- System powinien umożliwiać wyszukiwanie rezerwacji według typu pokoju lub zakresu dat.
 
 ## Funkcje systemu
 
