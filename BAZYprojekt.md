@@ -177,9 +177,30 @@ Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
 
 ## Dane przykładowe
 
-W bazie zostały umieszczone przykładowe dane testowe, takie jak typy pokoi, pokoje hotelowe, statusy rezerwacji, goście oraz przykładowe rezerwacje.
+W bazie zostały umieszczone przykładowe dane testowe, takie jak typy pokoi, pokoje hotelowe, statusy rezerwacji oraz przykładowe rezerwacje.
 
 Dane te służą do przetestowania działania relacji między tabelami oraz funkcji systemu.
+
+
+## Relacje między tabelami
+
+- **RoomTypes (1:N) HotelRooms**  
+  Jeden typ pokoju może być przypisany do wielu konkretnych pokoi hotelowych.
+
+- **Guests (1:N) Bookings**  
+  Jeden gość może posiadać wiele rezerwacji.
+
+- **BookingStatus (1:N) Bookings**  
+  Jeden status może być przypisany do wielu rezerwacji.
+
+- **Bookings (1:N) BookingRooms**  
+  Jedna rezerwacja może obejmować wiele pozycji dotyczących typów pokoi.
+
+- **RoomTypes (1:N) BookingRooms**  
+  Jeden typ pokoju może występować w wielu rezerwacjach.
+
+- **Bookings (1:N) Transactions**  
+  Jedna rezerwacja może mieć przypisane płatności.
 
 
 # 4.	Implementacja
