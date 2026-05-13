@@ -175,6 +175,11 @@ Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
 | PaymentDate    | datetime      | Data dokonania płatności              |
 | Method         | varchar(50)   | Metoda płatności (np. karta, gotówka) |
 
+## Dane przykładowe
+
+W bazie zostały umieszczone przykładowe dane testowe, takie jak typy pokoi, pokoje hotelowe, statusy rezerwacji, goście oraz przykładowe rezerwacje.
+
+Dane te służą do przetestowania działania relacji między tabelami oraz funkcji systemu.
 
 # 4.	Implementacja
 
