@@ -105,12 +105,12 @@ Nazwa tabeli: (nazwa tabeli)
 
 ### RoomTypes
 Opis: Tabela przechowuje typy pokoi dostępnych w hotelu.
-| Nazwa atrybutu | Typ           | Opis/Uwagi                                              |
-| -------------- | ------------- | ------------------------------------------------------- |
-| RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju                      |
-| Name           | varchar(50)   | Nazwa typu pokoju (Single, Double, Suite, Twin, Triple) |
-| MaxGuests      | int           | Maksymalna liczba gości                                 |
-| PricePerNight  | decimal(10,2) | Cena za jedną noc                                       |
+| Nazwa atrybutu | Typ           | Opis/Uwagi                                                                           |
+| -------------- | ------------- | ------------------------------------------------------------------------------------ |
+| RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju                                                   |
+| Name           | varchar(50)   | Nazwa typu pokoju (Pokój jednoosobowy, Pokój dwuosobowy, Pokój rodzinny, Apartament) |
+| MaxGuests      | int           | Maksymalna liczba gości                                                              |
+| PricePerNight  | decimal(10,2) | Cena za jedną noc                                                                    |
 
 Cena rezerwacji zależy od typu pokoju, liczby pokoi oraz liczby dni pobytu.
 
@@ -145,7 +145,7 @@ Opis: Tabela przechowuje możliwe statusy rezerwacji.
 Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
 
 | Nazwa atrybutu | Typ            | Opis/Uwagi                              |
-|----------------|----------------|-----------------------------------------|
+| -------------- | -------------- | --------------------------------------- |
 | BookingID      | int (PK)       | Unikalny identyfikator rezerwacji       |
 | GuestID        | int (FK)       | Odwołanie do tabeli Guests              |
 | DateFrom       | date           | Data rozpoczęcia pobytu                 |
@@ -203,6 +203,7 @@ Dane te służą do przetestowania działania relacji między tabelami oraz funk
   Jedna rezerwacja może mieć przypisane płatności.
 
 Tabela BookingRooms pełni rolę tabeli pośredniej, ponieważ rezerwacje są wykonywane według typu pokoju, a nie konkretnego numeru pokoju.
+Konkretne pokoje są przypisywane do rezerwacji na etapie zameldowania.
 
 # 4.	Implementacja
 
