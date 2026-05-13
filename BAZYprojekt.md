@@ -203,6 +203,7 @@ Dane te służą do przetestowania działania relacji między tabelami oraz funk
   Jedna rezerwacja może mieć przypisane płatności.
 
 Tabela BookingRooms pełni rolę tabeli pośredniej, ponieważ rezerwacje są wykonywane według typu pokoju, a nie konkretnego numeru pokoju.
+
 Konkretne pokoje są przypisywane do rezerwacji na etapie zameldowania.
 
 # 4.	Implementacja
