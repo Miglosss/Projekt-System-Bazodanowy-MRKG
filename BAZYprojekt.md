@@ -46,6 +46,9 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 - System powinien umożliwiać anulowanie rezerwacji.
 - System powinien umożliwiać przeglądanie wszystkich rezerwacji.
 - System powinien umożliwiać wyszukiwanie rezerwacji według typu pokoju lub zakresu dat.
+- System powinien umożliwiać obsługę różnych statusów rezerwacji.
+- System powinien umożliwiać zmianę statusu rezerwacji.
+- System powinien umożliwiać wcześniejsze zakończenie pobytu.
 
 ## Funkcje systemu
 
@@ -90,7 +93,7 @@ Użytkownik wyszukuje rezerwacje według typu pokoju lub zakresu dat.
 
 (diagram (rysunek) przedstawiający schemat bazy danych) 
 
-
+<img width="1157" height="690" alt="image" src="https://github.com/user-attachments/assets/321ce2b7-b5ea-44cf-9aea-55cb0372fa0a" />
 
 ## Opis poszczególnych tabel
 
@@ -107,11 +110,10 @@ Opis: Tabela przechowuje typy pokoi dostępnych w hotelu.
 | RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju                      |
 | Name           | varchar(50)   | Nazwa typu pokoju (Single, Double, Suite, Twin, Triple) |
 | MaxGuests      | int           | Maksymalna liczba gości                                 |
-| PricePerNight  | decimal(10,2) | Cena za jedną noc                                       |
+| PricePerNight  | decimal(10,2) | Cena za jedną noc, Cena rezerwacji zależy od typu pokoju i liczby dni pobytu. |
 
 ### HotelRooms
 Opis: Tabela przechowuje informacje o konkretnych pokojach hotelowych.
-| Nazwa atrybutu | Typ         | Opis/Uwagi |
 | Nazwa atrybutu | Typ      | Opis/Uwagi                                     |
 | -------------- | -------- | ---------------------------------------------- |
 | RoomID         | int (PK) | Unikalny identyfikator pokoju                  |
@@ -139,14 +141,16 @@ Opis: Tabela przechowuje możliwe statusy rezerwacji.
 
 ### Bookings
 Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
-| Nazwa atrybutu | Typ      | Opis/Uwagi                                                  |
-| -------------- | -------- | ----------------------------------------------------------- |
-| BookingID      | int (PK) | Unikalny identyfikator rezerwacji                           |
-| GuestID        | int (FK) | Odwołanie do tabeli Guests                                  |
-| DateFrom       | date     | Data rozpoczęcia pobytu                                     |
-| DateTo         | date     | Data zakończenia pobytu                                     |
-| ActualCheckOut | date     | Rzeczywista data zakończenia pobytu (może być wcześniejsza) |
-| StatusID       | int (FK) | Odwołanie do tabeli BookingStatus                           |
+
+| Nazwa atrybutu | Typ            | Opis/Uwagi                              |
+|----------------|----------------|-----------------------------------------|
+| BookingID      | int (PK)       | Unikalny identyfikator rezerwacji       |
+| GuestID        | int (FK)       | Odwołanie do tabeli Guests              |
+| DateFrom       | date           | Data rozpoczęcia pobytu                 |
+| DateTo         | date           | Data zakończenia pobytu                 |
+| ActualCheckOut | date           | Rzeczywista data zakończenia pobytu     |
+| StatusID       | int (FK)       | Odwołanie do tabeli BookingStatus       |
+| TotalPrice     | decimal(10,2)  | Całkowita cena rezerwacji               |
 
 ### BookingRooms
 Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji oraz ich liczbie.
