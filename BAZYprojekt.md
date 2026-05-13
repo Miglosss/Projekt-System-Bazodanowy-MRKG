@@ -110,7 +110,9 @@ Opis: Tabela przechowuje typy pokoi dostępnych w hotelu.
 | RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju                      |
 | Name           | varchar(50)   | Nazwa typu pokoju (Single, Double, Suite, Twin, Triple) |
 | MaxGuests      | int           | Maksymalna liczba gości                                 |
-| PricePerNight  | decimal(10,2) | Cena za jedną noc, Cena rezerwacji zależy od typu pokoju i liczby dni pobytu. |
+| PricePerNight  | decimal(10,2) | Cena za jedną noc                                       |
+
+Cena rezerwacji zależy od typu pokoju, liczby pokoi oraz liczby dni pobytu.
 
 ### HotelRooms
 Opis: Tabela przechowuje informacje o konkretnych pokojach hotelowych.
