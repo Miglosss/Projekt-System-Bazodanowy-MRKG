@@ -181,6 +181,7 @@ W bazie zostały umieszczone przykładowe dane testowe, takie jak typy pokoi, po
 
 Dane te służą do przetestowania działania relacji między tabelami oraz funkcji systemu.
 
+
 # 4.	Implementacja
 
 ## Kod poleceń DDL
