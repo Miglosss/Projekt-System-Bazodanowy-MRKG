@@ -93,7 +93,7 @@ Użytkownik wyszukuje rezerwacje według typu pokoju lub zakresu dat.
 
 (diagram (rysunek) przedstawiający schemat bazy danych) 
 
-<img width="1178" height="770" alt="image" src="https://github.com/user-attachments/assets/f9b4aacb-57d2-470e-acfa-a136b27a551c" />
+<img width="1205" height="728" alt="image" src="https://github.com/user-attachments/assets/b3a6412d-2550-452c-bcac-94364a882dff" />
 
 
 ## Opis poszczególnych tabel
@@ -154,15 +154,16 @@ Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
 | BookingDate    | datetime | Data utworzenia rezerwacji                    |
 
 ### BookingRooms
-Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji oraz ich liczbie.
-| Nazwa atrybutu | Typ            | Opis/Uwagi                                      |
-| -------------- | -------------- | ----------------------------------------------- |
-| BookingRoomID  | int (PK)       | Unikalny identyfikator przypisania              |
-| BookingID      | int (FK)       | Odwołanie do tabeli Bookings                    |
-| RoomTypeID     | int (FK)       | Odwołanie do tabeli RoomTypes                   |
-| RoomsCount     | int            | Liczba zarezerwowanych pokoi danego typu        |
-| GuestsCount    | int            | Liczba gości przypisana do danego typu pokoju   |
-| Price          | decimal(10,2)  | Cena za daną pozycję rezerwacji                 |
+Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji, ich liczbie oraz cenie.
+
+| Nazwa atrybutu | Typ           | Opis/Uwagi |
+| -------------- | ------------- | ---------- |
+| BookingRoomID  | int (PK)      | Unikalny identyfikator pozycji rezerwacji |
+| BookingID      | int (FK)      | Odwołanie do tabeli Bookings |
+| RoomTypeID     | int (FK)      | Odwołanie do tabeli RoomTypes |
+| RoomsCount     | int           | Liczba zarezerwowanych pokoi danego typu |
+| GuestsCount    | int           | Liczba gości przypisana do danego typu pokoju |
+| Price          | decimal(10,2) | Cena za daną pozycję rezerwacji |
 
 ### Transactions
 Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
@@ -173,6 +174,15 @@ Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
 | Amount         | decimal(10,2) | Kwota płatności                       |
 | PaymentDate    | datetime      | Data dokonania płatności              |
 | Method         | varchar(50)   | Metoda płatności (np. karta, gotówka) |
+
+### AssignedRooms
+Opis: Tabela przechowuje przypisanie konkretnych pokoi hotelowych do pozycji rezerwacji.
+
+| Nazwa atrybutu | Typ      | Opis/Uwagi |
+| -------------- | -------- | ---------- |
+| AssignedRoomID | int (PK) | Unikalny identyfikator przypisania pokoju |
+| BookingRoomID  | int (FK) | Odwołanie do tabeli BookingRooms |
+| RoomID         | int (FK) | Odwołanie do tabeli HotelRooms |
 
 # 4.	Implementacja
 
