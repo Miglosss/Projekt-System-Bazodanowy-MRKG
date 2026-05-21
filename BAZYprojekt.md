@@ -123,7 +123,6 @@ Opis: Tabela przechowuje informacje o konkretnych pokojach hotelowych.
 | RoomNumber     | int      | Numer pokoju (unikalny)                        |
 | RoomTypeID     | int (FK) | Odwołanie do tabeli RoomTypes                  |
 | Floor          | int      | Piętro, na którym znajduje się pokój           |
-| IsSmoking      | bit      | Czy pokój jest dla palących (1 = tak, 0 = nie) |
 
 ### Guests
 Opis: Tabela przechowuje dane gości hotelowych dokonujących rezerwacji.
@@ -145,26 +144,26 @@ Opis: Tabela przechowuje możliwe statusy rezerwacji.
 ### Bookings
 Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
 
-| Nazwa atrybutu | Typ            | Opis/Uwagi                              |
-| -------------- | -------------- | --------------------------------------- |
-| BookingID      | int (PK)       | Unikalny identyfikator rezerwacji       |
-| GuestID        | int (FK)       | Odwołanie do tabeli Guests              |
-| DateFrom       | date           | Data rozpoczęcia pobytu                 |
-| DateTo         | date           | Data zakończenia pobytu                 |
-| ActualCheckOut | date           | Rzeczywista data zakończenia pobytu     |
-| StatusID       | int (FK)       | Odwołanie do tabeli BookingStatus       |
-| TotalPrice     | decimal(10,2)  | Całkowita cena rezerwacji               |
+| Nazwa atrybutu | Typ      | Opis/Uwagi                                    |
+| -------------- | -------- | --------------------------------------------- |
+| BookingID      | int (PK) | Unikalny identyfikator rezerwacji             |
+| GuestID        | int (FK) | Odwołanie do tabeli Guests                    |
+| DateFrom       | date     | Data rozpoczęcia pobytu                       |
+| DateTo         | date     | Data zakończenia pobytu                       |
+| StatusID       | int (FK) | Odwołanie do tabeli BookingStatus             |
+| BookingDate    | datetime | Data utworzenia rezerwacji                    |
 
 ### BookingRooms
 Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji oraz ich liczbie.
-| Nazwa atrybutu | Typ      | Opis/Uwagi                                    |
-| -------------- | -------- | --------------------------------------------- |
-| BookingRoomID  | int (PK) | Unikalny identyfikator przypisania            |
-| BookingID      | int (FK) | Odwołanie do tabeli Bookings                  |
-| RoomTypeID     | int (FK) | Odwołanie do tabeli RoomTypes                 |
-| RoomsCount     | int      | Liczba zarezerwowanych pokoi danego typu      |
-| GuestsCount    | int      | Liczba gości przypisana do danego typu pokoju |
-
+| Nazwa atrybutu | Typ            | Opis/Uwagi                                      |
+| -------------- | -------------- | ----------------------------------------------- |
+| BookingRoomID  | int (PK)       | Unikalny identyfikator przypisania              |
+| BookingID      | int (FK)       | Odwołanie do tabeli Bookings                    |
+| RoomTypeID     | int (FK)       | Odwołanie do tabeli RoomTypes                   |
+| RoomsCount     | int            | Liczba zarezerwowanych pokoi danego typu        |
+| GuestsCount    | int            | Liczba gości przypisana do danego typu pokoju   |
+| PricePerNight  | decimal(10,2)  | Cena za noc zapisana w momencie rezerwacji      |
+| TotalPrice     | decimal(10,2)  | Łączna cena dla danego typu pokoju w rezerwacji |
 
 ### Transactions
 Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
@@ -175,37 +174,6 @@ Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
 | Amount         | decimal(10,2) | Kwota płatności                       |
 | PaymentDate    | datetime      | Data dokonania płatności              |
 | Method         | varchar(50)   | Metoda płatności (np. karta, gotówka) |
-
-## Dane przykładowe
-
-W bazie zostały umieszczone przykładowe dane testowe, takie jak typy pokoi, pokoje hotelowe, statusy rezerwacji oraz przykładowe rezerwacje.
-
-Dane te służą do przetestowania działania relacji między tabelami oraz funkcji systemu.
-
-
-## Relacje między tabelami
-
-- **RoomTypes (1:N) HotelRooms**  
-  Jeden typ pokoju może być przypisany do wielu konkretnych pokoi hotelowych.
-
-- **Guests (1:N) Bookings**  
-  Jeden gość może posiadać wiele rezerwacji.
-
-- **BookingStatus (1:N) Bookings**  
-  Jeden status może być przypisany do wielu rezerwacji.
-
-- **Bookings (1:N) BookingRooms**  
-  Jedna rezerwacja może obejmować wiele pozycji dotyczących typów pokoi.
-
-- **RoomTypes (1:N) BookingRooms**  
-  Jeden typ pokoju może występować w wielu rezerwacjach.
-
-- **Bookings (1:N) Transactions**  
-  Jedna rezerwacja może mieć przypisane płatności.
-
-Tabela BookingRooms pełni rolę tabeli pośredniej, ponieważ rezerwacje są wykonywane według typu pokoju, a nie konkretnego numeru pokoju.
-
-Konkretne pokoje są przypisywane do rezerwacji na etapie zameldowania.
 
 # 4.	Implementacja
 
