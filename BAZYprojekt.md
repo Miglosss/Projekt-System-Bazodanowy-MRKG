@@ -162,8 +162,7 @@ Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji or
 | RoomTypeID     | int (FK)       | Odwołanie do tabeli RoomTypes                   |
 | RoomsCount     | int            | Liczba zarezerwowanych pokoi danego typu        |
 | GuestsCount    | int            | Liczba gości przypisana do danego typu pokoju   |
-| PricePerNight  | decimal(10,2)  | Cena za noc zapisana w momencie rezerwacji      |
-| TotalPrice     | decimal(10,2)  | Łączna cena dla danego typu pokoju w rezerwacji |
+| Price          | decimal(10,2)  | Cena za daną pozycję rezerwacji                 |
 
 ### Transactions
 Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
