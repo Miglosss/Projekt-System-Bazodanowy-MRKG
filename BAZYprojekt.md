@@ -93,7 +93,8 @@ Użytkownik wyszukuje rezerwacje według typu pokoju lub zakresu dat.
 
 (diagram (rysunek) przedstawiający schemat bazy danych) 
 
-<img width="1157" height="690" alt="image" src="https://github.com/user-attachments/assets/321ce2b7-b5ea-44cf-9aea-55cb0372fa0a" />
+<img width="1178" height="770" alt="image" src="https://github.com/user-attachments/assets/f9b4aacb-57d2-470e-acfa-a136b27a551c" />
+
 
 ## Opis poszczególnych tabel
 
