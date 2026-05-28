@@ -298,6 +298,87 @@ CREATE TABLE Transactions (
 
 (dla każdego widoku należy wkleić kod polecenia definiującego widok wraz z komentarzem)
 
+### View_BookingsSummary
+```sql
+CREATE VIEW View_BookingsSummary AS
+SELECT 
+    b.BookingID,
+    g.FirstName,
+    g.LastName,
+    b.DateFrom,
+    b.DateTo,
+    DATEDIFF(DAY, b.DateFrom, b.DateTo) AS NightsCount,
+    bs.Name AS Status,
+    b.BookingDate
+FROM Bookings b
+JOIN Guests g ON b.GuestID = g.GuestID
+JOIN BookingStatus bs ON b.StatusID = bs.StatusID;
+GO
+```
+
+### View_BookingDetails
+```sql
+CREATE VIEW View_BookingDetails AS
+SELECT 
+    b.BookingID,
+    g.FirstName,
+    g.LastName,
+    rt.Name AS RoomType,
+    br.RoomsCount,
+    br.GuestsCount,
+    br.Price,
+    b.DateFrom,
+    b.DateTo,
+    bs.Name AS Status
+FROM BookingRooms br
+JOIN Bookings b ON br.BookingID = b.BookingID
+JOIN Guests g ON b.GuestID = g.GuestID
+JOIN RoomTypes rt ON br.RoomTypeID = rt.RoomTypeID
+JOIN BookingStatus bs ON b.StatusID = bs.StatusID;
+GO
+```
+
+### View_AssignedRoomsDetails
+```sql
+CREATE VIEW View_AssignedRoomsDetails AS
+SELECT 
+    ar.AssignedRoomID,
+    b.BookingID,
+    br.BookingRoomID,
+    hr.RoomNumber,
+    rt.Name AS RoomType,
+    g.FirstName,
+    g.LastName,
+    b.DateFrom,
+    b.DateTo,
+    bs.Name AS Status
+FROM AssignedRooms ar
+JOIN BookingRooms br ON ar.BookingRoomID = br.BookingRoomID
+JOIN Bookings b ON br.BookingID = b.BookingID
+JOIN Guests g ON b.GuestID = g.GuestID
+JOIN HotelRooms hr ON ar.RoomID = hr.RoomID
+JOIN RoomTypes rt ON hr.RoomTypeID = rt.RoomTypeID
+JOIN BookingStatus bs ON b.StatusID = bs.StatusID;
+GO
+```
+
+### View_PaymentSummary
+```sql
+CREATE VIEW View_PaymentSummary AS
+SELECT 
+    b.BookingID,
+    g.FirstName,
+    g.LastName,
+    SUM(br.Price) AS BookingValue,
+    ISNULL(SUM(t.Amount), 0) AS PaidAmount,
+    SUM(br.Price) - ISNULL(SUM(t.Amount), 0) AS AmountLeft
+FROM Bookings b
+JOIN Guests g ON b.GuestID = g.GuestID
+JOIN BookingRooms br ON b.BookingID = br.BookingID
+LEFT JOIN Transactions t ON b.BookingID = t.BookingID
+GROUP BY b.BookingID, g.FirstName, g.LastName;
+GO
+```
 
 ## Procedury/funkcje
 
