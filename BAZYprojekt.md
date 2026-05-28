@@ -195,11 +195,103 @@ Opis: Tabela przechowuje przypisanie konkretnych pokoi hotelowych do pozycji rez
 
 (dla każdej tabeli należy wkleić kod DDL polecenia tworzącego tabelę)
 
+### RoomTypes
 ```sql
-create table tab1 (
-   a int,
-   b varchar(10)
-)
+CREATE TABLE RoomTypes (
+    RoomTypeID INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    MaxGuests INT NOT NULL,
+    PricePerNight DECIMAL(10,2) NOT NULL
+);
+```
+
+### HotelRooms
+```sql
+CREATE TABLE HotelRooms (
+    RoomID INT IDENTITY(1,1) PRIMARY KEY,
+    RoomNumber INT NOT NULL UNIQUE,
+    RoomTypeID INT NOT NULL,
+    Floor INT NOT NULL,
+    CONSTRAINT FK_HotelRooms_RoomTypes
+        FOREIGN KEY (RoomTypeID) REFERENCES RoomTypes(RoomTypeID)
+);
+```
+
+### Guests
+```sql
+CREATE TABLE Guests (
+    GuestID INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Phone VARCHAR(20),
+    Email VARCHAR(100) UNIQUE
+);
+```
+
+### BookingStatus
+```sql
+CREATE TABLE BookingStatus (
+    StatusID INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(20) NOT NULL
+);
+```
+
+### Bookings
+```sql
+CREATE TABLE Bookings (
+    BookingID INT IDENTITY(1,1) PRIMARY KEY,
+    GuestID INT NOT NULL,
+    DateFrom DATE NOT NULL,
+    DateTo DATE NOT NULL,
+    StatusID INT NOT NULL,
+    BookingDate DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_Bookings_Guests
+        FOREIGN KEY (GuestID) REFERENCES Guests(GuestID),
+    CONSTRAINT FK_Bookings_BookingStatus
+        FOREIGN KEY (StatusID) REFERENCES BookingStatus(StatusID)
+);
+```
+
+### BookingRooms
+```sql
+CREATE TABLE BookingRooms (
+    BookingRoomID INT IDENTITY(1,1) PRIMARY KEY,
+    BookingID INT NOT NULL,
+    RoomTypeID INT NOT NULL,
+    RoomsCount INT NOT NULL,
+    GuestsCount INT NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    CONSTRAINT FK_BookingRooms_Bookings
+        FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID),
+    CONSTRAINT FK_BookingRooms_RoomTypes
+        FOREIGN KEY (RoomTypeID) REFERENCES RoomTypes(RoomTypeID)
+);
+```
+
+### AssignedRooms
+```sql
+CREATE TABLE AssignedRooms (
+    AssignedRoomID INT IDENTITY(1,1) PRIMARY KEY,
+    BookingRoomID INT NOT NULL,
+    RoomID INT NOT NULL,
+    CONSTRAINT FK_AssignedRooms_BookingRooms
+        FOREIGN KEY (BookingRoomID) REFERENCES BookingRooms(BookingRoomID),
+    CONSTRAINT FK_AssignedRooms_HotelRooms
+        FOREIGN KEY (RoomID) REFERENCES HotelRooms(RoomID)
+);
+```
+
+### Transactions
+```sql
+CREATE TABLE Transactions (
+    TransactionID INT IDENTITY(1,1) PRIMARY KEY,
+    BookingID INT NOT NULL,
+    Amount DECIMAL(10,2) NOT NULL,
+    PaymentDate DATETIME NOT NULL,
+    Method VARCHAR(50) NOT NULL,
+    CONSTRAINT FK_Transactions_Bookings
+        FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID)
+);
 ```
 
 ## Widoki
