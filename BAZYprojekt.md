@@ -35,56 +35,61 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 
 ## Wymagania systemu
 
-- System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takich jak numer pokoju, typ pokoju oraz maksymalna liczba osób.
+- System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takichjak numer pokoju, typ pokoju oraz maksymalna liczba osób.
 - System powinien umożliwiać tworzenie nowych rezerwacji dla wybranego typu pokoju.
 - System powinien umożliwiać określenie daty rozpoczęcia i zakończenia pobytu.
 - System powinien umożliwiać zapisanie liczby osób przypisanych do rezerwacji.
 - System powinien sprawdzać, czy liczba osób nie przekracza maksymalnej pojemności pokoju.
 - System powinien umożliwiać sprawdzanie dostępności wybranego typu pokoju w wybranym terminie.
-- System powinien umożliwiać sprawdzenie liczby dostępnych pokoi danego typu w podanym zakresie dat.
+- System powinien umożliwiać sprawdzenie liczby dostępnych pokoi danego typu w
+- podanym zakresie dat.
 - System powinien uniemożliwiać przekroczenie liczby dostępnych pokoi danego typu w tym samym czasie.
 - System powinien umożliwiać anulowanie rezerwacji.
 - System powinien umożliwiać przeglądanie wszystkich rezerwacji.
 - System powinien umożliwiać wyszukiwanie rezerwacji według typu pokoju lub zakresu dat.
 - System powinien umożliwiać obsługę różnych statusów rezerwacji.
 - System powinien umożliwiać zmianę statusu rezerwacji.
-- System powinien umożliwiać wcześniejsze zakończenie pobytu.
+- System powinien umożliwiać zmianę statusu rezerwacji, np. na planowaną, rozpoczętą, zakończoną lub anulowaną.
 
 ## Funkcje systemu
 
 Do głównych funkcji systemu będzie należało:
 
-- dodawanie danych pokojów,
-- przeglądanie listy pokojów,
-- tworzenie rezerwacji według typu pokoju,
-- określanie liczby pokoi oraz liczby osób,
-- określanie terminu pobytu,
-- sprawdzanie dostępności typu pokoju,
-- sprawdzanie liczby dostępnych pokoi danego typu w wybranych datach,
-- wyświetlanie listy wszystkich rezerwacji,
-- wyszukiwanie rezerwacji według typu pokoju lub dat,
-- anulowanie rezerwacji,
-- wyświetlanie listy zajętych pokoi w danym terminie.
+- Dodawanie danych pokojów,
+- Przeglądanie listy pokojów,
+- Tworzenie rezerwacji według typu pokoju,
+- Określanie liczby pokoi oraz liczby osób,
+- Określanie terminu pobytu,
+- Sprawdzanie dostępności typu pokoju,
+- Sprawdzanie liczby dostępnych pokoi danego typu w wybranych datach,
+- Sprawdzanie konkretnych wolnych pokoi w danym terminie,
+- Przypisywanie konkretnych pokoi do pozycji rezerwacji,
+- Wyświetlanie listy wszystkich rezerwacji,
+- Wyszukiwanie rezerwacji według typu pokoju lub dat,
+- Anulowanie rezerwacji poprzez zmianę statusu,
+- Wyświetlanie listy przypisanych pokoi do rezerwacji,
+- Obsługa płatności za rezerwacje.
 
 
 ## Przykładowe przypadki użycia
 
 ### Przypadek użycia 1 – dodanie rezerwacji
-Użytkownik wybiera typ pokoju, podaje liczbę pokoi, liczbę osób oraz daty pobytu.
-System sprawdza dostępność wybranego typu pokoju w danym terminie oraz czy liczba osób mieści się w maksymalnej pojemności.
-Jeśli warunki są spełnione, zapisuje rezerwację.
+Użytkownik wybiera typ pokoju, podaje liczbę pokoi, liczbę osób oraz daty pobytu. System sprawdza dostępność wybranego typu pokoju oraz czy liczba osób nie przekracza maksymalnej pojemności. Jeśli warunki są spełnione, system zapisuje rezerwację.
 
 ### Przypadek użycia 2 – sprawdzenie dostępności typu pokoju
-Użytkownik wybiera typ pokoju oraz zakres dat, a system sprawdza liczbę dostępnych pokoi tego typu w podanym terminie.
+Użytkownik wybiera typ pokoju oraz zakres dat, a system sprawdza liczbę dostępnych pokoi tego typu.
 
 ### Przypadek użycia 3 – sprawdzenie dostępnych pokoi
-Użytkownik podaje datę przyjazdu i wyjazdu, a system wyświetla liczbę dostępnych pokoi dla każdego typu w podanym okresie.
+Użytkownik podaje datę przyjazdu i wyjazdu, a system wyświetla konkretne wolne pokoje w danym terminie.
 
 ### Przypadek użycia 4 – anulowanie rezerwacji
-Użytkownik wybiera istniejącą rezerwację i zmienia jej status na anulowaną, dzięki czemu zarezerwowane pokoje wracają do puli dostępnych.
+Użytkownik wybiera pozycję rezerwacji i przypisuje do niej konkretny pokój hotelowy.
 
 ### Przypadek użycia 5 – wyszukiwanie rezerwacji
-Użytkownik wyszukuje rezerwacje według typu pokoju lub zakresu dat.
+Użytkownik wybiera istniejącą rezerwację i zmienia jej status na anulowaną. Anulowana rezerwacja nie jest uwzględniana przy sprawdzaniu dostępności.
+
+### Przypadek użycia 6 – wyszukiwanie rezerwacji 
+Użytkownik wyszukuje rezerwacje według typu pokoju, zakresu dat lub statusu.
 
 
 # 3.	Projekt bazy danych
