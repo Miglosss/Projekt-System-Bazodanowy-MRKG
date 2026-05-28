@@ -114,7 +114,7 @@ Opis: Tabela przechowuje typy pokoi dostępnych w hotelu.
 | Nazwa atrybutu | Typ           | Opis/Uwagi                                                                           |
 | -------------- | ------------- | ------------------------------------------------------------------------------------ |
 | RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju                                                   |
-| Name           | varchar(50)   | Nazwa typu pokoju (Pokój jednoosobowy, Pokój dwuosobowy, Pokój rodzinny, Apartament) |
+| Name           | varchar(50)   | Nazwa typu pokoju                                                                    |
 | MaxGuests      | int           | Maksymalna liczba gości                                                              |
 | PricePerNight  | decimal(10,2) | Cena za jedną noc                                                                    |
 
@@ -144,7 +144,7 @@ Opis: Tabela przechowuje możliwe statusy rezerwacji.
 | Nazwa atrybutu | Typ         | Opis/Uwagi                                             |
 | -------------- | ----------- | ------------------------------------------------------ |
 | StatusID       | int (PK)    | Unikalny identyfikator statusu                         |
-| Name           | varchar(20) | Nazwa statusu (Planned, Started, Completed, Cancelled) |
+| Name           | varchar(20) | Nazwa statusu rezerwacji                               |
 
 ### Bookings
 Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
@@ -161,14 +161,14 @@ Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
 ### BookingRooms
 Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji, ich liczbie oraz cenie.
 
-| Nazwa atrybutu | Typ           | Opis/Uwagi |
-| -------------- | ------------- | ---------- |
-| BookingRoomID  | int (PK)      | Unikalny identyfikator pozycji rezerwacji |
-| BookingID      | int (FK)      | Odwołanie do tabeli Bookings |
-| RoomTypeID     | int (FK)      | Odwołanie do tabeli RoomTypes |
-| RoomsCount     | int           | Liczba zarezerwowanych pokoi danego typu |
+| Nazwa atrybutu | Typ           | Opis/Uwagi                                    |
+| -------------- | ------------- | --------------------------------------------- |
+| BookingRoomID  | int (PK)      | Unikalny identyfikator pozycji rezerwacji     |
+| BookingID      | int (FK)      | Odwołanie do tabeli Bookings                  |
+| RoomTypeID     | int (FK)      | Odwołanie do tabeli RoomTypes                 |
+| RoomsCount     | int           | Liczba zarezerwowanych pokoi danego typu      |
 | GuestsCount    | int           | Liczba gości przypisana do danego typu pokoju |
-| Price          | decimal(10,2) | Cena za daną pozycję rezerwacji |
+| Price          | decimal(10,2) | Cena za daną pozycję rezerwacji               |
 
 ### Transactions
 Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
@@ -183,11 +183,11 @@ Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
 ### AssignedRooms
 Opis: Tabela przechowuje przypisanie konkretnych pokoi hotelowych do pozycji rezerwacji.
 
-| Nazwa atrybutu | Typ      | Opis/Uwagi |
-| -------------- | -------- | ---------- |
+| Nazwa atrybutu | Typ      | Opis/Uwagi                                |
+| -------------- | -------- | ----------------------------------------- |
 | AssignedRoomID | int (PK) | Unikalny identyfikator przypisania pokoju |
-| BookingRoomID  | int (FK) | Odwołanie do tabeli BookingRooms |
-| RoomID         | int (FK) | Odwołanie do tabeli HotelRooms |
+| BookingRoomID  | int (FK) | Odwołanie do tabeli BookingRooms          |
+| RoomID         | int (FK) | Odwołanie do tabeli HotelRooms            |
 
 # 4.	Implementacja
 
