@@ -381,6 +381,125 @@ GO
 
 (dla każdej procedury/funkcji należy wkleić kod polecenia definiującego procedurę wraz z komentarzem)
 
+### AddBooking
+```sql
+CREATE PROCEDURE AddBooking
+    @GuestID INT,
+    @RoomTypeID INT,
+    @RoomsCount INT,
+    @GuestsCount INT,
+    @DateFrom DATE,
+    @DateTo DATE
+AS
+BEGIN
+    DECLARE @MaxGuests INT;
+    DECLARE @PricePerNight DECIMAL(10,2);
+    DECLARE @AvailableRooms INT;
+    DECLARE @BookingID INT;
+
+    SELECT 
+        @MaxGuests = MaxGuests,
+        @PricePerNight = PricePerNight
+    FROM RoomTypes
+    WHERE RoomTypeID = @RoomTypeID;
+
+    SELECT @AvailableRooms = COUNT(*)
+    FROM HotelRooms
+    WHERE RoomTypeID = @RoomTypeID;
+
+    SELECT @AvailableRooms = @AvailableRooms - ISNULL(SUM(br.RoomsCount), 0)
+    FROM BookingRooms br
+    JOIN Bookings b ON br.BookingID = b.BookingID
+    WHERE br.RoomTypeID = @RoomTypeID
+      AND b.DateFrom < @DateTo
+      AND b.DateTo > @DateFrom
+      AND b.StatusID <> 4;
+
+    IF @GuestsCount > (@MaxGuests * @RoomsCount)
+    BEGIN
+        RAISERROR('Liczba gości przekracza maksymalną pojemność.', 16, 1);
+        RETURN;
+    END;
+
+    IF @RoomsCount > @AvailableRooms
+    BEGIN
+        RAISERROR('Brak wystarczającej liczby wolnych pokoi.', 16, 1);
+        RETURN;
+    END;
+
+    INSERT INTO Bookings (GuestID, DateFrom, DateTo, StatusID, BookingDate)
+    VALUES (@GuestID, @DateFrom, @DateTo, 1, GETDATE());
+
+    SET @BookingID = SCOPE_IDENTITY();
+
+    INSERT INTO BookingRooms (BookingID, RoomTypeID, RoomsCount, GuestsCount, Price)
+    VALUES (
+        @BookingID,
+        @RoomTypeID,
+        @RoomsCount,
+        @GuestsCount,
+        @PricePerNight * @RoomsCount * DATEDIFF(DAY, @DateFrom, @DateTo)
+    );
+END;
+GO
+```
+
+### CheckFreeRooms
+```sql
+CREATE PROCEDURE CheckFreeRooms
+    @DateFrom DATE,
+    @DateTo DATE,
+    @RoomTypeID INT = NULL
+AS
+BEGIN
+    SELECT 
+        hr.RoomID,
+        hr.RoomNumber,
+        rt.Name AS RoomType,
+        hr.Floor
+    FROM HotelRooms hr
+    JOIN RoomTypes rt ON hr.RoomTypeID = rt.RoomTypeID
+    WHERE (@RoomTypeID IS NULL OR hr.RoomTypeID = @RoomTypeID)
+      AND hr.RoomID NOT IN (
+          SELECT ar.RoomID
+          FROM AssignedRooms ar
+          JOIN BookingRooms br ON ar.BookingRoomID = br.BookingRoomID
+          JOIN Bookings b ON br.BookingID = b.BookingID
+          WHERE b.DateFrom < @DateTo
+            AND b.DateTo > @DateFrom
+            AND b.StatusID <> 4
+      );
+END;
+GO
+```
+
+### AssignRoom
+```sql
+CREATE PROCEDURE AssignRoom
+    @BookingRoomID INT,
+    @RoomID INT
+AS
+BEGIN
+    INSERT INTO AssignedRooms (BookingRoomID, RoomID)
+    VALUES (@BookingRoomID, @RoomID);
+END;
+GO
+```
+
+### ChangeBookingStatus
+```sql
+CREATE PROCEDURE ChangeBookingStatus
+    @BookingID INT,
+    @StatusID INT
+AS
+BEGIN
+    UPDATE Bookings
+    SET StatusID = @StatusID
+    WHERE BookingID = @BookingID;
+END;
+GO
+```
+
 ## Triggery
 
 (dla każdego triggera należy wkleić kod polecenia definiującego trigger wraz z komentarzem)
