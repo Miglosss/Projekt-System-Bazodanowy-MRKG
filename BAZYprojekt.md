@@ -298,24 +298,6 @@ CREATE TABLE Transactions (
 
 (dla każdego widoku należy wkleić kod polecenia definiującego widok wraz z komentarzem)
 
-### View_BookingsSummary
-```sql
-CREATE VIEW View_BookingsSummary AS
-SELECT 
-    b.BookingID,
-    g.FirstName,
-    g.LastName,
-    b.DateFrom,
-    b.DateTo,
-    DATEDIFF(DAY, b.DateFrom, b.DateTo) AS NightsCount,
-    bs.Name AS Status,
-    b.BookingDate
-FROM Bookings b
-JOIN Guests g ON b.GuestID = g.GuestID
-JOIN BookingStatus bs ON b.StatusID = bs.StatusID;
-GO
-```
-
 ### View_BookingDetails
 ```sql
 CREATE VIEW View_BookingDetails AS
@@ -335,6 +317,21 @@ JOIN Bookings b ON br.BookingID = b.BookingID
 JOIN Guests g ON b.GuestID = g.GuestID
 JOIN RoomTypes rt ON br.RoomTypeID = rt.RoomTypeID
 JOIN BookingStatus bs ON b.StatusID = bs.StatusID;
+GO
+```
+
+### View_RoomTypeAvailabilitySummary
+```sql
+CREATE VIEW View_RoomTypeAvailabilitySummary AS
+SELECT
+    rt.RoomTypeID,
+    rt.Name AS RoomType,
+    rt.MaxGuests,
+    rt.PricePerNight,
+    COUNT(hr.RoomID) AS TotalRooms
+FROM RoomTypes rt
+LEFT JOIN HotelRooms hr ON rt.RoomTypeID = hr.RoomTypeID
+GROUP BY rt.RoomTypeID, rt.Name, rt.MaxGuests, rt.PricePerNight;
 GO
 ```
 
