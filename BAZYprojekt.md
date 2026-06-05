@@ -300,7 +300,7 @@ CREATE TABLE Transactions (
 
 ### View_BookingDetails
 
-Widok przedstawia podsumowanie typów pokoi dostępnych w hotelu. Pokazuje nazwę typu pokoju, maksymalną liczbę gości, cenę za noc oraz całkowitą liczbę pokoi danego typu.
+Widok prezentuje szczegółowe informacje dotyczące rezerwacji oraz powiązanych z nimi pokoi. Ułatwia analizę danych rezerwacyjnych bez konieczności wykonywania wielu połączeń między tabelami.
 
 ```sql
 CREATE VIEW View_BookingDetails AS
@@ -325,7 +325,7 @@ GO
 
 ### View_RoomTypeAvailabilitySummary
 
-Widok prezentuje szczegółowe informacje o rezerwacjach. Pokazuje gościa, typ pokoju, liczbę pokoi, liczbę gości, cenę, terminy pobytu oraz status rezerwacji.
+Widok przedstawia informacje o dostępnych typach pokoi w hotelu. Pozwala szybko sprawdzić liczbę pokoi danego typu, ich pojemność oraz ceny.
 
 ```sql
 CREATE VIEW View_RoomTypeAvailabilitySummary AS
@@ -343,7 +343,7 @@ GO
 
 ### View_AssignedRoomsDetails
 
-Widok pokazuje konkretne pokoje przypisane do rezerwacji oraz umożliwia sprawdzenie, który pokój został przydzielony danemu gościowi.
+Widok pokazuje konkretne pokoje przypisane do poszczególnych rezerwacji. Może być wykorzystywany przez recepcję podczas meldowania gości oraz zarządzania zajętością pokoi.
 
 ```sql
 CREATE VIEW View_AssignedRoomsDetails AS
@@ -370,8 +370,7 @@ GO
 
 ### View_PaymentSummary
 
-Opis:  
-Widok przedstawia informacje związane z płatnościami za rezerwacje.
+Widok przedstawia informacje dotyczące rozliczeń rezerwacji. Pozwala sprawdzić wartość rezerwacji, dokonane wpłaty oraz pozostałą kwotę do zapłaty.
 
 ```sql
 CREATE VIEW View_PaymentSummary AS
@@ -398,7 +397,7 @@ GO
 
 ### AddBooking
 
-Procedura dodaje nową rezerwację, sprawdza dostępność pokoi oraz weryfikuje liczbę gości.
+Procedura służy do tworzenia nowych rezerwacji w systemie. Sprawdza dostępność pokoi oraz weryfikuje poprawność liczby gości przed zapisaniem danych.
 
 ```sql
 CREATE PROCEDURE AddBooking
@@ -464,7 +463,7 @@ GO
 
 ### CheckFreeRooms
 
-Procedura wyświetla wolne pokoje w wybranym terminie.
+Procedura umożliwia sprawdzenie dostępnych pokoi w określonym terminie. Uwzględnia istniejące rezerwacje oraz pomija rezerwacje anulowane.
 
 ```sql
 CREATE PROCEDURE CheckFreeRooms
@@ -496,7 +495,7 @@ GO
 
 ### AssignRoom
 
-Procedura przypisuje konkretny pokój hotelowy do pozycji rezerwacji.
+Procedura przypisuje konkretny pokój hotelowy do wcześniej utworzonej rezerwacji. Pozwala przejść od rezerwacji typu pokoju do przypisania fizycznego numeru pokoju.
 
 ```sql
 CREATE PROCEDURE AssignRoom
@@ -512,7 +511,7 @@ GO
 
 ### ChangeBookingStatus
 
-Procedura umożliwia zmianę statusu istniejącej rezerwacji.
+Procedura umożliwia zmianę statusu istniejącej rezerwacji. Dzięki niej można oznaczać rezerwacje jako aktywne, zakończone lub anulowane.
 
 ```sql
 CREATE PROCEDURE ChangeBookingStatus
@@ -529,7 +528,7 @@ GO
 
 ### AddPayment
 
-Procedura dodaje płatność do konkretnej rezerwacji.
+Procedura dodaje informacje o płatności do konkretnej rezerwacji. Automatycznie zapisuje kwotę, metodę płatności oraz datę wykonania transakcji.
 
 ```sql
 CREATE PROCEDURE AddPayment
@@ -548,7 +547,7 @@ GO
 
 ### GetTotalRoomsByType
 
-Zwraca liczbę wszystkich pokoi danego typu.
+Funkcja zwraca całkowitą liczbę pokoi wybranego typu. Może być wykorzystywana podczas analizowania struktury hotelu lub raportowania.
 
 ```sql
 CREATE FUNCTION GetTotalRoomsByType
@@ -571,7 +570,7 @@ GO
 
 ### GetAvailableRoomsByType
 
-Zwraca liczbę dostępnych pokoi danego typu w podanym terminie.
+Funkcja oblicza liczbę dostępnych pokoi określonego typu w wybranym terminie. Ułatwia szybkie sprawdzanie dostępności podczas procesu rezerwacji.
 
 ```sql
 CREATE FUNCTION GetAvailableRoomsByType
@@ -605,7 +604,7 @@ GO
 
 ### CalculateBookingPrice
 
-Oblicza koszt rezerwacji na podstawie typu pokoju, liczby pokoi i liczby nocy.
+Funkcja automatycznie wylicza koszt rezerwacji na podstawie liczby pokoi, liczby nocy oraz ceny pokoju. Pozwala uniknąć ręcznego obliczania kosztów.
 
 ```sql
 CREATE FUNCTION CalculateBookingPrice
@@ -631,7 +630,7 @@ GO
 
 ### GetPaidAmountForBooking
 
-Zwraca sumę wszystkich wpłat dla konkretnej rezerwacji.
+Funkcja zwraca sumę wszystkich wpłat wykonanych dla wybranej rezerwacji. Może być wykorzystywana podczas kontroli rozliczeń z gośćmi.
 
 
 ```sql
@@ -659,7 +658,7 @@ GO
 
 ### CheckBookingDates
  
-Blokuje rezerwacje z błędnymi datami, datami z przeszłości oraz rezerwacje dalsze niż dwa lata do przodu.
+Trigger kontroluje poprawność dat rezerwacji podczas dodawania lub edycji danych. Blokuje rezerwacje z błędnymi terminami, datami z przeszłości oraz zbyt odległymi terminami.
 
 ```sql
 CREATE TRIGGER trg_CheckBookingDates
@@ -685,7 +684,7 @@ GO
 
 ### PreventAssignedRoomConflict
  
-Blokuje przypisanie tego samego pokoju do kilku aktywnych rezerwacji w tym samym terminie.
+Trigger zabezpiecza system przed przypisaniem tego samego pokoju do kilku aktywnych rezerwacji jednocześnie. Dzięki temu zapobiega występowaniu overbookingu pokoi.
 
 ```sql
 CREATE TRIGGER trg_PreventAssignedRoomConflict
@@ -717,7 +716,7 @@ GO
 
 ### CheckGuestsLimit
 
-Kontroluje, czy liczba gości nie przekracza maksymalnej pojemności pokoi.
+Trigger kontroluje, czy liczba gości nie przekracza maksymalnej pojemności zarezerwowanych pokoi. Zapewnia spójność danych oraz poprawność rezerwacji.
 
 ```sql
 CREATE TRIGGER trg_CheckGuestsLimit
