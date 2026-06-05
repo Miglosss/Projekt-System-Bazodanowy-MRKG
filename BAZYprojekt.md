@@ -299,6 +299,10 @@ CREATE TABLE Transactions (
 (dla każdego widoku należy wkleić kod polecenia definiującego widok wraz z komentarzem)
 
 ### View_BookingDetails
+
+Opis:  
+Widok przedstawia podsumowanie typów pokoi dostępnych w hotelu. Pokazuje nazwę typu pokoju, maksymalną liczbę gości, cenę za noc oraz całkowitą liczbę pokoi danego typu.
+
 ```sql
 CREATE VIEW View_BookingDetails AS
 SELECT 
@@ -321,6 +325,10 @@ GO
 ```
 
 ### View_RoomTypeAvailabilitySummary
+
+Opis:  
+Widok prezentuje szczegółowe informacje o rezerwacjach. Pokazuje gościa, typ pokoju, liczbę pokoi, liczbę gości, cenę, terminy pobytu oraz status rezerwacji.
+
 ```sql
 CREATE VIEW View_RoomTypeAvailabilitySummary AS
 SELECT
@@ -336,6 +344,10 @@ GO
 ```
 
 ### View_AssignedRoomsDetails
+
+Opis:  
+Widok pokazuje konkretne pokoje przypisane do rezerwacji oraz umożliwia sprawdzenie, który pokój został przydzielony danemu gościowi.
+
 ```sql
 CREATE VIEW View_AssignedRoomsDetails AS
 SELECT 
@@ -360,6 +372,10 @@ GO
 ```
 
 ### View_PaymentSummary
+
+Opis:  
+Widok przedstawia informacje związane z płatnościami za rezerwacje.
+
 ```sql
 CREATE VIEW View_PaymentSummary AS
 SELECT 
@@ -377,11 +393,17 @@ GROUP BY b.BookingID, g.FirstName, g.LastName;
 GO
 ```
 
-## Procedury/funkcje
+## Procedury
 
 (dla każdej procedury/funkcji należy wkleić kod polecenia definiującego procedurę wraz z komentarzem)
 
+
+
 ### AddBooking
+
+Opis:  
+Procedura dodaje nową rezerwację, sprawdza dostępność pokoi oraz weryfikuje liczbę gości.
+
 ```sql
 CREATE PROCEDURE AddBooking
     @GuestID INT,
@@ -445,6 +467,10 @@ GO
 ```
 
 ### CheckFreeRooms
+
+Opis:  
+Procedura wyświetla wolne pokoje w wybranym terminie.
+
 ```sql
 CREATE PROCEDURE CheckFreeRooms
     @DateFrom DATE,
@@ -474,6 +500,10 @@ GO
 ```
 
 ### AssignRoom
+
+Opis:  
+Procedura przypisuje konkretny pokój hotelowy do pozycji rezerwacji.
+
 ```sql
 CREATE PROCEDURE AssignRoom
     @BookingRoomID INT,
@@ -487,6 +517,10 @@ GO
 ```
 
 ### ChangeBookingStatus
+
+Opis:  
+Procedura umożliwia zmianę statusu istniejącej rezerwacji.
+
 ```sql
 CREATE PROCEDURE ChangeBookingStatus
     @BookingID INT,
@@ -500,10 +534,224 @@ END;
 GO
 ```
 
+### AddPayment
+
+Opis:  
+Procedura dodaje płatność do konkretnej rezerwacji.
+
+```sql
+CREATE PROCEDURE AddPayment
+    @BookingID INT,
+    @Amount DECIMAL(10,2),
+    @Method VARCHAR(50)
+AS
+BEGIN
+    INSERT INTO Transactions (BookingID, Amount, PaymentDate, Method)
+    VALUES (@BookingID, @Amount, GETDATE(), @Method);
+END;
+GO
+```
+
+## Funkcje
+
+### GetTotalRoomsByType
+
+Opis:  
+Zwraca liczbę wszystkich pokoi danego typu.
+
+```sql
+CREATE FUNCTION GetTotalRoomsByType
+(
+    @RoomTypeID INT
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @Count INT;
+
+    SELECT @Count = COUNT(*)
+    FROM HotelRooms
+    WHERE RoomTypeID = @RoomTypeID;
+
+    RETURN @Count;
+END;
+GO
+```
+
+### GetAvailableRoomsByType
+
+Opis:  
+Zwraca liczbę dostępnych pokoi danego typu w podanym terminie.
+
+```sql
+CREATE FUNCTION GetAvailableRoomsByType
+(
+    @RoomTypeID INT,
+    @DateFrom DATE,
+    @DateTo DATE
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @TotalRooms INT;
+    DECLARE @ReservedRooms INT;
+
+    SELECT @TotalRooms = COUNT(*)
+    FROM HotelRooms
+    WHERE RoomTypeID = @RoomTypeID;
+
+    SELECT @ReservedRooms = ISNULL(SUM(br.RoomsCount), 0)
+    FROM BookingRooms br
+    JOIN Bookings b ON br.BookingID = b.BookingID
+    WHERE br.RoomTypeID = @RoomTypeID
+      AND b.DateFrom < @DateTo
+      AND b.DateTo > @DateFrom
+      AND b.StatusID <> 4;
+
+    RETURN @TotalRooms - @ReservedRooms;
+END;
+GO
+```
+
+### CalculateBookingPrice
+
+Opis:  
+Oblicza koszt rezerwacji na podstawie typu pokoju, liczby pokoi i liczby nocy.
+
+```sql
+CREATE FUNCTION CalculateBookingPrice
+(
+    @RoomTypeID INT,
+    @RoomsCount INT,
+    @DateFrom DATE,
+    @DateTo DATE
+)
+RETURNS DECIMAL(10,2)
+AS
+BEGIN
+    DECLARE @PricePerNight DECIMAL(10,2);
+
+    SELECT @PricePerNight = PricePerNight
+    FROM RoomTypes
+    WHERE RoomTypeID = @RoomTypeID;
+
+    RETURN @PricePerNight * @RoomsCount * DATEDIFF(DAY, @DateFrom, @DateTo);
+END;
+GO
+```
+
+### GetPaidAmountForBooking
+
+Opis:  
+Zwraca sumę wszystkich wpłat dla konkretnej rezerwacji.
+
+
+```sql
+CREATE FUNCTION GetPaidAmountForBooking
+(
+    @BookingID INT
+)
+RETURNS DECIMAL(10,2)
+AS
+BEGIN
+    DECLARE @PaidAmount DECIMAL(10,2);
+
+    SELECT @PaidAmount = ISNULL(SUM(Amount), 0)
+    FROM Transactions
+    WHERE BookingID = @BookingID;
+
+    RETURN @PaidAmount;
+END;
+GO
+```
+
 ## Triggery
 
 (dla każdego triggera należy wkleić kod polecenia definiującego trigger wraz z komentarzem)
 
+### trg_CheckBookingDates
 
+Opis:  
+Blokuje rezerwacje z błędnymi datami, datami z przeszłości oraz rezerwacje dalsze niż dwa lata do przodu.
+
+```sql
+CREATE TRIGGER trg_CheckBookingDates
+ON Bookings
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM inserted
+        WHERE DateFrom < CAST(GETDATE() AS DATE)
+           OR DateTo <= DateFrom
+           OR DateFrom > DATEADD(YEAR, 2, CAST(GETDATE() AS DATE))
+           OR DateTo > DATEADD(YEAR, 2, CAST(GETDATE() AS DATE))
+    )
+    BEGIN
+        RAISERROR('Nie można utworzyć rezerwacji z błędnymi datami.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END;
+END;
+GO
+```
+
+### trg_PreventAssignedRoomConflict
+
+Opis:  
+Blokuje przypisanie tego samego pokoju do kilku aktywnych rezerwacji w tym samym terminie.
+
+```sql
+CREATE TRIGGER trg_PreventAssignedRoomConflict
+ON AssignedRooms
+AFTER INSERT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        JOIN BookingRooms br1 ON i.BookingRoomID = br1.BookingRoomID
+        JOIN Bookings b1 ON br1.BookingID = b1.BookingID
+        JOIN AssignedRooms ar2 ON i.RoomID = ar2.RoomID
+        JOIN BookingRooms br2 ON ar2.BookingRoomID = br2.BookingRoomID
+        JOIN Bookings b2 ON br2.BookingID = b2.BookingID
+        WHERE i.AssignedRoomID <> ar2.AssignedRoomID
+          AND b1.DateFrom < b2.DateTo
+          AND b1.DateTo > b2.DateFrom
+          AND b1.StatusID <> 4
+          AND b2.StatusID <> 4
+    )
+    BEGIN
+        RAISERROR('Ten pokój jest już przypisany w wybranym terminie.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END;
+END;
+GO
+```
+
+### trg_CheckGuestsLimit
+
+Opis:  
+Kontroluje, czy liczba gości nie przekracza maksymalnej pojemności pokoi.
+
+```sql
+CREATE TRIGGER trg_CheckGuestsLimit
+ON BookingRooms
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        JOIN RoomTypes rt ON i.RoomTypeID = rt.RoomTypeID
+        WHERE i.GuestsCount > (rt.MaxGuests * i.RoomsCount)
+    )
+    BEGIN
+        RAISERROR('Liczba gości przekracza maksymalną pojemność pokoi.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END;
+END;
+GO
+```
 
 
