@@ -300,7 +300,6 @@ CREATE TABLE Transactions (
 
 ### View_BookingDetails
 
-Opis:  
 Widok przedstawia podsumowanie typów pokoi dostępnych w hotelu. Pokazuje nazwę typu pokoju, maksymalną liczbę gości, cenę za noc oraz całkowitą liczbę pokoi danego typu.
 
 ```sql
@@ -326,7 +325,6 @@ GO
 
 ### View_RoomTypeAvailabilitySummary
 
-Opis:  
 Widok prezentuje szczegółowe informacje o rezerwacjach. Pokazuje gościa, typ pokoju, liczbę pokoi, liczbę gości, cenę, terminy pobytu oraz status rezerwacji.
 
 ```sql
@@ -345,7 +343,6 @@ GO
 
 ### View_AssignedRoomsDetails
 
-Opis:  
 Widok pokazuje konkretne pokoje przypisane do rezerwacji oraz umożliwia sprawdzenie, który pokój został przydzielony danemu gościowi.
 
 ```sql
@@ -401,7 +398,6 @@ GO
 
 ### AddBooking
 
-Opis:  
 Procedura dodaje nową rezerwację, sprawdza dostępność pokoi oraz weryfikuje liczbę gości.
 
 ```sql
@@ -468,7 +464,6 @@ GO
 
 ### CheckFreeRooms
 
-Opis:  
 Procedura wyświetla wolne pokoje w wybranym terminie.
 
 ```sql
@@ -501,7 +496,6 @@ GO
 
 ### AssignRoom
 
-Opis:  
 Procedura przypisuje konkretny pokój hotelowy do pozycji rezerwacji.
 
 ```sql
@@ -518,7 +512,6 @@ GO
 
 ### ChangeBookingStatus
 
-Opis:  
 Procedura umożliwia zmianę statusu istniejącej rezerwacji.
 
 ```sql
@@ -536,7 +529,6 @@ GO
 
 ### AddPayment
 
-Opis:  
 Procedura dodaje płatność do konkretnej rezerwacji.
 
 ```sql
@@ -556,7 +548,6 @@ GO
 
 ### GetTotalRoomsByType
 
-Opis:  
 Zwraca liczbę wszystkich pokoi danego typu.
 
 ```sql
@@ -580,7 +571,6 @@ GO
 
 ### GetAvailableRoomsByType
 
-Opis:  
 Zwraca liczbę dostępnych pokoi danego typu w podanym terminie.
 
 ```sql
@@ -615,7 +605,6 @@ GO
 
 ### CalculateBookingPrice
 
-Opis:  
 Oblicza koszt rezerwacji na podstawie typu pokoju, liczby pokoi i liczby nocy.
 
 ```sql
@@ -642,7 +631,6 @@ GO
 
 ### GetPaidAmountForBooking
 
-Opis:  
 Zwraca sumę wszystkich wpłat dla konkretnej rezerwacji.
 
 
@@ -669,9 +657,8 @@ GO
 
 (dla każdego triggera należy wkleić kod polecenia definiującego trigger wraz z komentarzem)
 
-### trg_CheckBookingDates
-
-Opis:  
+### CheckBookingDates
+ 
 Blokuje rezerwacje z błędnymi datami, datami z przeszłości oraz rezerwacje dalsze niż dwa lata do przodu.
 
 ```sql
@@ -696,9 +683,8 @@ END;
 GO
 ```
 
-### trg_PreventAssignedRoomConflict
-
-Opis:  
+### PreventAssignedRoomConflict
+ 
 Blokuje przypisanie tego samego pokoju do kilku aktywnych rezerwacji w tym samym terminie.
 
 ```sql
@@ -729,9 +715,8 @@ END;
 GO
 ```
 
-### trg_CheckGuestsLimit
+### CheckGuestsLimit
 
-Opis:  
 Kontroluje, czy liczba gości nie przekracza maksymalnej pojemności pokoi.
 
 ```sql
