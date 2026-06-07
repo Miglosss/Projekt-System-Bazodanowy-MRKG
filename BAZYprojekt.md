@@ -26,7 +26,7 @@
 
 (np. Cel projektu, słowny opis realizowanego systemu systemu)
 
-Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego do zarządzania rezerwacją miejsc noclegowych. System ma umożliwiać przechowywanie informacji o pokojach oraz rezerwacjach, z uwzględnieniem liczby osób przypisanych do danego pobytu.
+Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego do zarządzania rezerwacjami miejsc noclegowych. System umożliwia zarządzanie pokojami hotelowymi, rezerwacjami, przypisywaniem konkretnych pokoi, obsługą statusów rezerwacji oraz rejestrowaniem płatności.
 
 
 # 2.	Wymagania i funkcje systemu
@@ -35,15 +35,13 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 
 ## Wymagania systemu
 
-- System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takichjak numer pokoju, typ pokoju oraz maksymalna liczba osób.
+- System powinien umożliwiać przechowywanie informacji o pokojach hotelowych, takich jak numer pokoju, typ pokoju oraz maksymalna liczba osób.
 - System powinien umożliwiać tworzenie nowych rezerwacji dla wybranego typu pokoju.
 - System powinien umożliwiać określenie daty rozpoczęcia i zakończenia pobytu.
 - System powinien umożliwiać zapisanie liczby osób przypisanych do rezerwacji.
 - System powinien sprawdzać, czy liczba osób nie przekracza maksymalnej pojemności pokoju.
-- System powinien umożliwiać sprawdzanie dostępności wybranego typu pokoju w wybranym terminie.
 - System powinien umożliwiać sprawdzenie liczby dostępnych pokoi danego typu w podanym zakresie dat.
 - System powinien uniemożliwiać przekroczenie liczby dostępnych pokoi danego typu w tym samym czasie.
-- System powinien umożliwiać anulowanie rezerwacji.
 - System powinien umożliwiać przeglądanie wszystkich rezerwacji.
 - System powinien umożliwiać wyszukiwanie rezerwacji według typu pokoju lub zakresu dat.
 - System powinien umożliwiać obsługę różnych statusów rezerwacji.
@@ -150,6 +148,8 @@ Opis: Tabela przechowuje możliwe statusy rezerwacji.
 | -------------- | ----------- | ------------------------------------------------------ |
 | StatusID       | int (PK)    | Unikalny identyfikator statusu                         |
 | Name           | varchar(20) | Nazwa statusu rezerwacji                               |
+
+Statusy rezerwacji pozwalają określić aktualny stan rezerwacji, np. planowana, rozpoczęta, zakończona lub anulowana. Dzięki temu system może poprawnie obsługiwać dostępność pokoi oraz historię rezerwacji.
 
 ### Bookings
 Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
@@ -467,6 +467,9 @@ END;
 GO
 ```
 
+System zakłada, że status „Anulowana” posiada identyfikator StatusID = 4, dlatego takie rezerwacje nie są uwzględniane podczas obliczania dostępności.
+
+
 ### CheckFreeRooms
 
 Procedura umożliwia sprawdzenie dostępnych pokoi w określonym terminie. Uwzględnia istniejące rezerwacje oraz pomija rezerwacje anulowane.
@@ -531,6 +534,9 @@ BEGIN
 END;
 GO
 ```
+
+Rezerwacje oznaczone jako anulowane nie są uwzględniane przy sprawdzaniu dostępności pokoi, jednak pozostają zapisane w systemie jako dane historyczne.
+
 
 ### AddPayment
 
@@ -662,7 +668,7 @@ GO
 
 (dla każdego triggera należy wkleić kod polecenia definiującego trigger wraz z komentarzem)
 
-### CheckBookingDates
+### trg_CheckBookingDates
  
 Trigger kontroluje poprawność dat rezerwacji podczas dodawania lub edycji danych. Blokuje rezerwacje z błędnymi terminami, datami z przeszłości oraz zbyt odległymi terminami.
 
@@ -688,7 +694,7 @@ END;
 GO
 ```
 
-### PreventAssignedRoomConflict
+### trg_PreventAssignedRoomConflict
  
 Trigger zabezpiecza system przed przypisaniem tego samego pokoju do kilku aktywnych rezerwacji jednocześnie. Dzięki temu zapobiega występowaniu overbookingu pokoi.
 
@@ -720,7 +726,7 @@ END;
 GO
 ```
 
-### CheckGuestsLimit
+### trg_CheckGuestsLimit
 
 Trigger kontroluje, czy liczba gości nie przekracza maksymalnej pojemności zarezerwowanych pokoi. Zapewnia spójność danych oraz poprawność rezerwacji.
 
