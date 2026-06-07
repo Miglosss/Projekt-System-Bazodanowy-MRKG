@@ -41,15 +41,20 @@ Celem projektu jest stworzenie bazy danych dla systemu hotelowego służącego d
 - System powinien umożliwiać zapisanie liczby osób przypisanych do rezerwacji.
 - System powinien sprawdzać, czy liczba osób nie przekracza maksymalnej pojemności pokoju.
 - System powinien umożliwiać sprawdzanie dostępności wybranego typu pokoju w wybranym terminie.
-- System powinien umożliwiać sprawdzenie liczby dostępnych pokoi danego typu w
-- podanym zakresie dat.
+- System powinien umożliwiać sprawdzenie liczby dostępnych pokoi danego typu w podanym zakresie dat.
 - System powinien uniemożliwiać przekroczenie liczby dostępnych pokoi danego typu w tym samym czasie.
 - System powinien umożliwiać anulowanie rezerwacji.
 - System powinien umożliwiać przeglądanie wszystkich rezerwacji.
 - System powinien umożliwiać wyszukiwanie rezerwacji według typu pokoju lub zakresu dat.
 - System powinien umożliwiać obsługę różnych statusów rezerwacji.
-- System powinien umożliwiać zmianę statusu rezerwacji.
-- System powinien umożliwiać zmianę statusu rezerwacji, np. na planowaną, rozpoczętą, zakończoną lub anulowaną.
+- System powinien umożliwiać zmianę statusu rezerwacji, np. na Planowaną, Rozpoczętą, Zakończoną lub Anulowaną.
+- System umożliwia dodawanie płatności do rezerwacji.
+- System umożliwia sprawdzanie sumy wpłat dla rezerwacji.
+- System automatycznie oblicza koszt rezerwacji.
+- System sprawdza dostępność pokoi w wybranym terminie.
+- System blokuje rezerwacje z niepoprawnymi datami.
+- System blokuje przypisanie tego samego pokoju do dwóch aktywnych rezerwacji w tym samym terminie.
+- System kontroluje, czy liczba gości nie przekracza maksymalnej pojemności pokoju.
 
 ## Funkcje systemu
 
@@ -82,11 +87,11 @@ Użytkownik wybiera typ pokoju oraz zakres dat, a system sprawdza liczbę dostę
 ### Przypadek użycia 3 – sprawdzenie dostępnych pokoi
 Użytkownik podaje datę przyjazdu i wyjazdu, a system wyświetla konkretne wolne pokoje w danym terminie.
 
-### Przypadek użycia 4 – anulowanie rezerwacji
-Użytkownik wybiera pozycję rezerwacji i przypisuje do niej konkretny pokój hotelowy.
+### Przypadek użycia 4 – przypisanie pokoju
+Użytkownik wybiera pozycję rezerwacji i przypisuje do niej konkretny pokój hotelowy. Dzięki temu system wie, w którym pokoju zostanie zakwaterowany gość.
 
-### Przypadek użycia 5 – wyszukiwanie rezerwacji
-Użytkownik wybiera istniejącą rezerwację i zmienia jej status na anulowaną. Anulowana rezerwacja nie jest uwzględniana przy sprawdzaniu dostępności.
+### Przypadek użycia 5 – anulowanie rezerwacji
+Użytkownik wybiera rezerwację i zmienia jej status na anulowaną. Rezerwacja pozostaje w bazie jako historia, ale nie jest brana pod uwagę przy sprawdzaniu dostępności.
 
 ### Przypadek użycia 6 – wyszukiwanie rezerwacji 
 Użytkownik wyszukuje rezerwacje według typu pokoju, zakresu dat lub statusu.
@@ -111,12 +116,12 @@ Nazwa tabeli: (nazwa tabeli)
 
 ### RoomTypes
 Opis: Tabela przechowuje typy pokoi dostępnych w hotelu.
-| Nazwa atrybutu | Typ           | Opis/Uwagi                                                                           |
-| -------------- | ------------- | ------------------------------------------------------------------------------------ |
-| RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju                                                   |
-| Name           | varchar(50)   | Nazwa typu pokoju                                                                    |
-| MaxGuests      | int           | Maksymalna liczba gości                                                              |
-| PricePerNight  | decimal(10,2) | Cena za jedną noc                                                                    |
+| Nazwa atrybutu | Typ           | Opis/Uwagi                          |
+| -------------- | ------------- | ----------------------------------- |
+| RoomTypeID     | int (PK)      | Unikalny identyfikator typu pokoju  |
+| Name           | varchar(50)   | Nazwa typu pokoju                   |
+| MaxGuests      | int           | Maksymalna liczba gości             |
+| PricePerNight  | decimal(10,2) | Cena za jedną noc                   |
 
 Cena rezerwacji zależy od typu pokoju, liczby pokoi oraz liczby dni pobytu.
 
@@ -159,7 +164,7 @@ Opis: Tabela przechowuje informacje o rezerwacjach dokonywanych przez gości.
 | BookingDate    | datetime | Data utworzenia rezerwacji                    |
 
 ### BookingRooms
-Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji, ich liczbie oraz cenie.
+Opis: Tabela przechowuje informacje o typach pokoi przypisanych do rezerwacji, ich liczbie oraz cenie. Przechowuje informację o tym, jaki typ pokoju został zarezerwowany oraz w jakiej liczbie.
 
 | Nazwa atrybutu | Typ           | Opis/Uwagi                                    |
 | -------------- | ------------- | --------------------------------------------- |
@@ -182,6 +187,7 @@ Opis: Tabela przechowuje informacje o płatnościach za rezerwacje.
 
 ### AssignedRooms
 Opis: Tabela przechowuje przypisanie konkretnych pokoi hotelowych do pozycji rezerwacji.
+Przechowuje ona dopiero konkretne pokoje przypisane do rezerwacji, np. pokój numer 103. Dzięki temu system działa podobnie do rzeczywistego hotelu, gdzie najpierw rezerwuje się typ pokoju, a konkretny numer pokoju można przypisać później.
 
 | Nazwa atrybutu | Typ      | Opis/Uwagi                                |
 | -------------- | -------- | ----------------------------------------- |
@@ -495,7 +501,7 @@ GO
 
 ### AssignRoom
 
-Procedura przypisuje konkretny pokój hotelowy do wcześniej utworzonej rezerwacji. Pozwala przejść od rezerwacji typu pokoju do przypisania fizycznego numeru pokoju.
+Procedura przypisuje konkretny pokój hotelowy do wcześniej utworzonej rezerwacji. Pozwala przejść od rezerwacji typu pokoju do przypisania fizycznego numeru pokoju. Sama procedura wykonuje prostą operację dodania danych, natomiast poprawność przypisania kontroluje trigger, który blokuje przypisanie zajętego pokoju w tym samym terminie.
 
 ```sql
 CREATE PROCEDURE AssignRoom
