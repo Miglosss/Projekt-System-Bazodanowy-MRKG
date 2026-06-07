@@ -364,7 +364,7 @@ SELECT
     b.DateFrom,
     b.DateTo,
     bs.Name AS Status
-FROM AssignedRooms ar
+FROM AssignedRooms ar 
 JOIN BookingRooms br ON ar.BookingRoomID = br.BookingRoomID
 JOIN Bookings b ON br.BookingID = b.BookingID
 JOIN Guests g ON b.GuestID = g.GuestID
