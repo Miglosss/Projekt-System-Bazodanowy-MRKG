@@ -328,6 +328,10 @@ JOIN RoomTypes rt ON br.RoomTypeID = rt.RoomTypeID
 JOIN BookingStatus bs ON b.StatusID = bs.StatusID;
 GO
 ```
+Uruchomienie
+```
+SELECT * FROM View_BookingDetails;
+```
 
 ### View_RoomTypeAvailabilitySummary
 
@@ -345,6 +349,10 @@ FROM RoomTypes rt
 LEFT JOIN HotelRooms hr ON rt.RoomTypeID = hr.RoomTypeID
 GROUP BY rt.RoomTypeID, rt.Name, rt.MaxGuests, rt.PricePerNight;
 GO
+```
+Uruchomienie
+```
+SELECT * FROM View_RoomTypeAvailabilitySummary;
 ```
 
 ### View_AssignedRoomsDetails
@@ -373,6 +381,10 @@ JOIN RoomTypes rt ON hr.RoomTypeID = rt.RoomTypeID
 JOIN BookingStatus bs ON b.StatusID = bs.StatusID;
 GO
 ```
+Uruchomienie
+```
+SELECT * FROM View_AssignedRoomsDetails;
+```
 
 ### View_PaymentSummary
 
@@ -393,6 +405,10 @@ JOIN BookingRooms br ON b.BookingID = br.BookingID
 LEFT JOIN Transactions t ON b.BookingID = t.BookingID
 GROUP BY b.BookingID, g.FirstName, g.LastName;
 GO
+```
+Uruchomienie
+```
+SELECT * FROM View_PaymentSummary;
 ```
 
 ## Procedury
@@ -466,6 +482,10 @@ BEGIN
 END;
 GO
 ```
+Uruchomienie
+```
+EXEC AddBooking 1, 2, 1, 2, '2026-06-10', '2026-06-13';
+```
 
 System zakłada, że status „Anulowana” posiada identyfikator StatusID = 4, dlatego takie rezerwacje nie są uwzględniane podczas obliczania dostępności.
 
@@ -501,6 +521,10 @@ BEGIN
 END;
 GO
 ```
+Uruchomienie
+```
+EXEC CheckFreeRooms '2026-06-10', '2026-06-13', 2;
+```
 
 ### AssignRoom
 
@@ -516,6 +540,10 @@ BEGIN
     VALUES (@BookingRoomID, @RoomID);
 END;
 GO
+```
+Uruchomienie
+```
+EXEC AssignRoom 1, 3;
 ```
 
 ### ChangeBookingStatus
@@ -533,6 +561,10 @@ BEGIN
     WHERE BookingID = @BookingID;
 END;
 GO
+```
+Uruchomienie
+```
+EXEC ChangeBookingStatus 1, 2;
 ```
 
 Rezerwacje oznaczone jako anulowane nie są uwzględniane przy sprawdzaniu dostępności pokoi, jednak pozostają zapisane w systemie jako dane historyczne.
@@ -553,6 +585,10 @@ BEGIN
     VALUES (@BookingID, @Amount, GETDATE(), @Method);
 END;
 GO
+```
+Uruchomienie
+```
+EXEC AddPayment 1, 500.00, 'Karta';
 ```
 
 ## Funkcje
@@ -578,6 +614,10 @@ BEGIN
     RETURN @Count;
 END;
 GO
+```
+Uruchomienie
+```
+SELECT dbo.GetTotalRoomsByType(2);
 ```
 
 ### GetAvailableRoomsByType
@@ -613,6 +653,10 @@ BEGIN
 END;
 GO
 ```
+Uruchomienie
+```
+SELECT dbo.GetAvailableRoomsByType(2, '2026-07-01', '2026-07-05');
+```
 
 ### CalculateBookingPrice
 
@@ -639,6 +683,10 @@ BEGIN
 END;
 GO
 ```
+Uruchomienie
+```
+SELECT dbo.CalculateBookingPrice(2, 1, '2026-06-10', '2026-06-13');
+```
 
 ### GetPaidAmountForBooking
 
@@ -662,6 +710,10 @@ BEGIN
     RETURN @PaidAmount;
 END;
 GO
+```
+Uruchomienie
+```
+SELECT dbo.GetPaidAmountForBooking(1);
 ```
 
 ## Triggery
